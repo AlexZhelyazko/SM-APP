@@ -1,4 +1,5 @@
 import './login.scss';
+import { NavLink } from 'react-router-dom';
 
 export const Login = () => {
   return (
@@ -8,7 +9,9 @@ export const Login = () => {
           <h1>Hello World</h1>
           <p>Some text</p>
           <span>Don't you have an account?</span>
-          <button>Register</button>
+          <NavLink to="/register">
+            <button>Register</button>
+          </NavLink>
         </div>
         <div className="right">
           <h1>Login</h1>

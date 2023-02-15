@@ -1,4 +1,5 @@
 import './register.scss';
+import { NavLink } from 'react-router-dom';
 
 export const Register = () => {
   return (
@@ -8,7 +9,9 @@ export const Register = () => {
           <h1>Hello World</h1>
           <p>Some text</p>
           <span>Do you have an account?</span>
-          <button>Login</button>
+          <NavLink to="/login">
+            <button>Login</button>
+          </NavLink>
         </div>
         <div className="right">
           <h1>Register</h1>

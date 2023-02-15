@@ -1,10 +1,35 @@
+import { Routes, Route } from 'react-router-dom';
+import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
+import { Layout } from './layout/Layout';
+import { Home } from './pages/home/Home';
 import { Login } from './pages/login/Login';
+import { Profile } from './pages/profile/Profile';
 import { Register } from './pages/register/Register';
 
-export const App = () => {
+export const App: React.FC = () => {
+  const currentUser = false;
   return (
-    <div>
-      <Register />
-    </div>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Layout />}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute currentUser={false}>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <ProtectedRoute currentUser={false}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
