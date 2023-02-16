@@ -5,7 +5,7 @@ import RightBar from '../components/RightBar/RightBar';
 
 export const Layout = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className="theme-dark" style={{ display: 'flex', flexDirection: 'column' }}>
       <Navbar />
       <div style={{ display: 'flex' }}>
         <LeftBar />
