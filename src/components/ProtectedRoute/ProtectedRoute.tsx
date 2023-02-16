@@ -8,7 +8,6 @@ interface ProtectedRouteProps {
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, currentUser }) => {
   if (!currentUser) {
     return <Navigate to="login" />;
-  } else {
-    return <Navigate to="/" />;
   }
+  return children;
 };

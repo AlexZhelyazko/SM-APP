@@ -1,15 +1,17 @@
 import { Outlet } from 'react-router-dom';
-import { LeftBar } from '../components/LeftBar/LeftBar';
+import LeftBar from '../components/LeftBar/LeftBar';
 import Navbar from '../components/Navbar/Navbar';
-import { RightBar } from '../components/RightBar/RightBar';
+import RightBar from '../components/RightBar/RightBar';
 
 export const Layout = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Navbar />
-      <div>
+      <div style={{ display: 'flex' }}>
         <LeftBar />
-        <Outlet />
+        <div style={{ flex: '6' }}>
+          <Outlet />
+        </div>
         <RightBar />
       </div>
     </div>
