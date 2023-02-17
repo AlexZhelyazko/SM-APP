@@ -6,7 +6,8 @@ import { AuthContext } from '../../context/authContext';
 export const Login = () => {
   const { login } = useContext(AuthContext);
 
-  const handleLogin = () => {
+  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     login();
   };
 
@@ -26,7 +27,7 @@ export const Login = () => {
           <form>
             <input type="text" placeholder="Username" />
             <input type="password" placeholder="password" />
-            <button onClick={handleLogin}>Login</button>
+            <button onClick={(e) => handleLogin(e)}>Login</button>
           </form>
         </div>
       </div>
