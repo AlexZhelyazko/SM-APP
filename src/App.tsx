@@ -5,7 +5,7 @@ import { AuthContext } from './context/authContext';
 import { Layout } from './layout/Layout';
 import { Home } from './pages/home/Home';
 import { Login } from './pages/login/Login';
-import { Profile } from './pages/profile/Profile';
+import Profile from './pages/profile/Profile';
 import { Register } from './pages/register/Register';
 import './style.scss';
 
