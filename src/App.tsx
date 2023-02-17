@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
+import { AuthContext } from './context/authContext';
 import { Layout } from './layout/Layout';
 import { Home } from './pages/home/Home';
 import { Login } from './pages/login/Login';
@@ -8,25 +10,11 @@ import { Register } from './pages/register/Register';
 import './style.scss';
 
 export const App: React.FC = () => {
-  const currentUser = true;
+  const { currentUser } = useContext(AuthContext);
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={
-          <ProtectedRoute currentUser={currentUser}>
-            <Login />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <ProtectedRoute currentUser={currentUser}>
-            <Register />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/" element={<Layout />}>
         <Route
           path="/"

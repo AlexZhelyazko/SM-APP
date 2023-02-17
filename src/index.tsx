@@ -6,6 +6,7 @@ import { App } from './App';
 import { BrowserRouter } from 'react-router-dom';
 import './index.scss';
 import { DarkModeContextProvider } from './context/darkModeContext';
+import { AuthContextProvider } from './context/authContext';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -15,7 +16,9 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <DarkModeContextProvider>
-          <App />
+          <AuthContextProvider>
+            <App />
+          </AuthContextProvider>
         </DarkModeContextProvider>
       </BrowserRouter>
     </Provider>
