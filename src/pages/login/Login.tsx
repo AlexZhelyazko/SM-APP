@@ -1,14 +1,30 @@
 import './login.scss';
-import { NavLink } from 'react-router-dom';
-import { useContext } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/authContext';
 
 export const Login = () => {
   const { login } = useContext(AuthContext);
+  const [inputs, setInputs] = useState({
+    username: '',
+    password: '',
+  });
+  const [err, setErr] = useState(null);
 
-  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    login();
+    try {
+      await login(inputs);
+      navigate('/');
+    } catch (error: any) {
+      setErr(error.response.data);
+    }
   };
 
   return (
@@ -25,8 +41,9 @@ export const Login = () => {
         <div className="right">
           <h1>Login</h1>
           <form>
-            <input type="text" placeholder="Username" />
-            <input type="password" placeholder="password" />
+            <input type="text" placeholder="Username" name="username" onChange={handleChange} />
+            <input type="password" placeholder="password" name="password" onChange={handleChange} />
+            {err && err}
             <button onClick={(e) => handleLogin(e)}>Login</button>
           </form>
         </div>
