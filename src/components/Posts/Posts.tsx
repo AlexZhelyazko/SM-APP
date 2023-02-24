@@ -31,9 +31,7 @@ const Posts = () => {
 
   return (
     <div className="posts">
-      {/* {data && data.map((post: any) => (
-        <Post post={post} key={post.id} />
-      ))} */}
+      {data && data.map((post: any) => <Post post={post} key={post.id} />)}
     </div>
   );
 };
