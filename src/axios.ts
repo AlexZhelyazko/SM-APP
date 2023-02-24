@@ -9,3 +9,8 @@ export  async function getPosts () {
     const res = await instance.get('posts');
     return res.data
 }
+
+export  async function addPost (post:any) { 
+    const res = await instance.post('posts', {...post});
+    return res.data
+}

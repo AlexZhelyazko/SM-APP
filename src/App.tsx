@@ -15,7 +15,13 @@ export const App: React.FC = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/" element={<Layout />}>
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute currentUser={currentUser}>
+            <Layout />
+          </ProtectedRoute>
+        }>
         <Route
           path="/"
           element={

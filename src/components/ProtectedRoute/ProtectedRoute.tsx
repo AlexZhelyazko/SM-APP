@@ -13,6 +13,7 @@ interface ProtectedRouteProps {
 // };
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, currentUser }) => {
+  console.log(currentUser);
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
