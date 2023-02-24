@@ -14,6 +14,7 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
+  console.log(post);
 
   //TEMPORARY
   const liked = false;
@@ -37,7 +38,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </div>
         <div className="content">
           <p>{post.desc}</p>
-          <img src={post.img} alt="" />
+          {post.img && <img src={'/upload/' + post.img} alt="" />}
         </div>
         <div className="info">
           <div className="item">

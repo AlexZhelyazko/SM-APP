@@ -5,17 +5,29 @@ import Friend from '../../assets/friend.png';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/authContext';
 import { useMutation, useQueryClient } from 'react-query';
-import { addPost, getPosts } from '../../axios';
+import { addPost, addPostImg, getPosts, makeRequest } from '../../axios';
 
 const Share = () => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState('');
 
-  const upload = async () => {
+  // const upload = async () => {
+  //   try {
+  //     // let formData = new FormData();
+  //     //formData.append('file', file);
+  //     //console.log(formData);
+  //     const res = await addPostImg(file.name);
+  //     return res.data;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  const upload = async (e) => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const res = await getPosts.post('/upload', formData);
+      const res = await makeRequest.post('/upload', formData);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -28,7 +40,7 @@ const Share = () => {
 
   const mutation = useMutation(
     (newPost) => {
-      return addPost(newPost);
+      return makeRequest.post('/posts', newPost);
     },
     {
       onSuccess: () => {
