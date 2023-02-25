@@ -54,7 +54,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
             Share
           </div>
         </div>
-        {commentOpen && <Comments />}
+        {commentOpen && <Comments postId={post.id} />}
       </div>
     </div>
   );

@@ -11,18 +11,6 @@ const Share = () => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState('');
 
-  // const upload = async () => {
-  //   try {
-  //     // let formData = new FormData();
-  //     //formData.append('file', file);
-  //     //console.log(formData);
-  //     const res = await addPostImg(file.name);
-  //     return res.data;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   const upload = async (e) => {
     try {
       const formData = new FormData();

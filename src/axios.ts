@@ -24,4 +24,9 @@ export  async function addPostImg (img:any) {
 export const makeRequest = axios.create({
     baseURL: "http://localhost:8800/api/",
     withCredentials: true,
-  });
+});
+
+export async function getComments(postId: any) {
+    const res = await instance.get(`comments?postId=${postId}`)
+    return res.data
+}
