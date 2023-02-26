@@ -39,7 +39,14 @@ const Comments = ({ postId }) => {
   return (
     <div className="comments">
       <div className="write">
-        <img src={'/upload/' + currentUser.profilePic} alt="" />
+        <img
+          src={
+            currentUser.profilePic
+              ? '/upload/' + currentUser.profilePic
+              : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+          }
+          alt=""
+        />
         <input
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
@@ -54,7 +61,14 @@ const Comments = ({ postId }) => {
         ? 'loading'
         : data.map((comment) => (
             <div className="comment">
-              <img src={'/upload/' + comment.profilePic} alt="" />
+              <img
+                src={
+                  currentUser.profilePic
+                    ? '/upload/' + currentUser.profilePic
+                    : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                }
+                alt=""
+              />
               <div className="info">
                 <span>{comment.name}</span>
                 <p>{comment.desc}</p>

@@ -14,7 +14,6 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
-  console.log(post);
 
   //TEMPORARY
   const liked = false;
