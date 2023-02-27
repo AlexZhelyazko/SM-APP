@@ -1,4 +1,5 @@
 import './profile.scss';
+import { useContext } from 'react';
 import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -9,18 +10,45 @@ import LanguageIcon from '@mui/icons-material/Language';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Posts from '../../components/Posts/Posts';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
+import { makeRequest } from '../../axios';
+import { AuthContext } from '../../context/authContext';
 
 const Profile = () => {
+  const params = useParams();
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
+
+  const { isLoading, error, data } = useQuery(['users'], () =>
+    makeRequest.get('/users/find/' + params.id).then((res) => {
+      return res.data;
+    }),
+  );
+
+  console.log(data);
+  if (isLoading) {
+    return <div>Load</div>;
+  }
+
   return (
     <div className="profile">
       <div className="images">
         <img
-          src="https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          src={
+            data.coverPic
+              ? data.coverPic
+              : 'https://images.unsplash.com/photo-1619251173183-eccbb0f03cd2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c2ltcGxlJTIwY29sb3J8ZW58MHx8MHx8&w=1000&q=80'
+          }
           alt=""
           className="cover"
         />
         <img
-          src="https://images.pexels.com/photos/14028501/pexels-photo-14028501.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+          src={
+            data.profilePic
+              ? data.profilePic
+              : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+          }
           alt=""
           className="profilePic"
         />
@@ -45,7 +73,7 @@ const Profile = () => {
             </a>
           </div>
           <div className="center">
-            <span>Jane Doe</span>
+            <span>{data.name}</span>
             <div className="info">
               <div className="item">
                 <PlaceIcon />
@@ -56,7 +84,7 @@ const Profile = () => {
                 <span>lama.dev</span>
               </div>
             </div>
-            <button>follow</button>
+            {currentUser.id === Number(params.id) ? <button>Edit</button> : <button>follow</button>}
           </div>
           <div className="right">
             <EmailOutlinedIcon />
