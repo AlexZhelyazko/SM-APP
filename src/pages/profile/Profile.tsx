@@ -10,7 +10,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Posts from '../../components/Posts/Posts';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { makeRequest } from '../../axios';
 import { AuthContext } from '../../context/authContext';
@@ -26,7 +26,33 @@ const Profile = () => {
     }),
   );
 
-  console.log(data);
+  const { isLoading: relationshipLoading, data: relationshipData } = useQuery(
+    ['relationship'],
+    () =>
+      makeRequest.get('/relationships?followedUserId=' + params.id).then((res) => {
+        return res.data;
+      }),
+  );
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    (following: any) => {
+      if (following) return makeRequest.delete('/relationships?userId=' + params.id);
+      return makeRequest.post('/relationships', { userId: params.id });
+    },
+    {
+      onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries(['relationship']);
+      },
+    },
+  );
+
+  const handleFollow = () => {
+    mutation.mutate(relationshipData.includes(currentUser.id));
+  };
+
   if (isLoading) {
     return <div>Load</div>;
   }
@@ -84,7 +110,15 @@ const Profile = () => {
                 <span>lama.dev</span>
               </div>
             </div>
-            {currentUser.id === Number(params.id) ? <button>Edit</button> : <button>follow</button>}
+            {currentUser.id === Number(params.id) ? (
+              <button>Edit</button>
+            ) : (
+              <button onClick={handleFollow}>
+                {!relationshipLoading && relationshipData.includes(currentUser.id)
+                  ? 'Unfollow'
+                  : 'Follow'}
+              </button>
+            )}
           </div>
           <div className="right">
             <EmailOutlinedIcon />
