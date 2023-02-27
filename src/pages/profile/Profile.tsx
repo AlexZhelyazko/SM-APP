@@ -125,7 +125,7 @@ const Profile = () => {
             <MoreVertIcon />
           </div>
         </div>
-        <Posts />
+        <Posts userId={params.id} />
       </div>
     </div>
   );
