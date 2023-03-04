@@ -52,7 +52,14 @@ const Share = () => {
       <div className="container">
         <div className="top">
           <div className="left">
-            <img src={'/upload/' + currentUser.profilePic} alt="" />
+            <img
+              src={
+                currentUser.profilePic
+                  ? '/upload/' + currentUser.profilePic
+                  : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+              }
+              alt=""
+            />
             <input
               type="text"
               placeholder={`What's on your mind ${currentUser.name}?`}
@@ -79,14 +86,14 @@ const Share = () => {
                 <span>Add Image</span>
               </div>
             </label>
-            <div className="item">
+            {/* <div className="item">
               <img src={Map} alt="" />
               <span>Add Place</span>
-            </div>
-            <div className="item">
+            </div> */}
+            {/* <div className="item">
               <img src={Friend} alt="" />
               <span>Tag Friends</span>
-            </div>
+            </div> */}
           </div>
           <div className="right">
             <button onClick={handleClick}>Share</button>

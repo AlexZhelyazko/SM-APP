@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Friends } from './components/Friends/Friends';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { AuthContext } from './context/authContext';
 import { Layout } from './layout/Layout';
@@ -38,6 +39,7 @@ export const App: React.FC = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/friends" element={<Friends />} />
       </Route>
     </Routes>
   );
