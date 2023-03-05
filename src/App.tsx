@@ -39,7 +39,7 @@ export const App: React.FC = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/friends" element={<Friends />} />
+        <Route path="/followings" element={<Friends />} />
       </Route>
     </Routes>
   );

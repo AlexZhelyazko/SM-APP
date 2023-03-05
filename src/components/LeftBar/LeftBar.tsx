@@ -6,29 +6,31 @@ import Events from '../../assets/6.png';
 import Gaming from '../../assets/7.png';
 import Messages from '../../assets/10.png';
 import { AuthContext } from '../../context/authContext';
+import { NavLink } from 'react-router-dom';
 
 const LeftBar = () => {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
   return (
     <div className="leftBar">
       <div className="container">
         <div className="menu">
           <div className="user">
-            <span>
-              <img
-                src={
-                  currentUser.profilePic ||
-                  'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
-                }
-                alt="profilePic"
-              />
-            </span>
-            <span>{currentUser.name}</span>
+            <NavLink to={`/profile/${currentUser.id}`}>
+              <span>
+                <img
+                  src={
+                    currentUser.profilePic ||
+                    'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                  }
+                  alt="profilePic"
+                />
+              </span>
+              <span>{currentUser.name}</span>
+            </NavLink>
           </div>
           <div className="item">
             <img src={Friends} alt="" />
-            <span>Friends</span>
+            <NavLink to="/followings">Followings</NavLink>
           </div>
           <div className="item">
             <img src={Groups} alt="" />
