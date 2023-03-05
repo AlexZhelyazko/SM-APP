@@ -6,7 +6,6 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import PlaceIcon from '@mui/icons-material/Place';
-import LanguageIcon from '@mui/icons-material/Language';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Posts from '../../components/Posts/Posts';
@@ -102,14 +101,12 @@ const Profile = () => {
           <div className="center">
             <span>{data.name}</span>
             <div className="info">
-              <div className="item">
-                <PlaceIcon />
-                <span>USA</span>
-              </div>
-              <div className="item">
-                <LanguageIcon />
-                <span>lama.dev</span>
-              </div>
+              {data.city && (
+                <div className="item">
+                  <PlaceIcon />
+                  <span>{data.city}</span>
+                </div>
+              )}
             </div>
             {currentUser.id === Number(params.id) ? (
               <button onClick={() => setOpenUpdate(true)}>Edit</button>
