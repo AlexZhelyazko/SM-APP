@@ -42,7 +42,7 @@ const LeftBar = () => {
           <span>Your shortcuts</span>
           <div className="item">
             <img src={Events} alt="" />
-            <span>Events (In Dev)</span>
+            <NavLink to="/">News</NavLink>
           </div>
           <div className="item">
             <img src={Gaming} alt="" />

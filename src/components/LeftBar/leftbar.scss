@@ -8,7 +8,7 @@
     height: calc(100vh - 70px);
     overflow: scroll;
     background-color: themed("bg");
-    color: themed("textColor");
+    color: themed("textColor") !important;
 
     @include mobile{
       display: none;
@@ -42,6 +42,11 @@
           align-items: center;
           gap: 10px;
 
+          a{
+            color: themed("textColor") !important;
+            display: contents;
+          }
+
           img {
             width: 30px;
             height: 30px;
@@ -63,7 +68,7 @@
             width: 30px;
           }
 
-          span {
+          span,a {
             font-size: 14px;
           }
         }
