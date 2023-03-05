@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { makeRequest } from '../../axios';
 import './update.scss';
 import { useMutation, useQueryClient } from 'react-query';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { AuthContext } from '../../context/authContext';
 
 export const Update = ({ setOpenUpdate, user }) => {
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
   const [cover, setCover] = useState(null);
   const [profile, setProfile] = useState(null);
   const [texts, setTexts] = useState({
@@ -59,6 +61,7 @@ export const Update = ({ setOpenUpdate, user }) => {
     setOpenUpdate(false);
     setCover(null);
     setProfile(null);
+    setCurrentUser({ ...texts, id: currentUser.id, coverPic: coverUrl, profilePic: profileUrl });
   };
 
   return (

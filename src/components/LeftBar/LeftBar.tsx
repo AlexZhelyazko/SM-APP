@@ -10,6 +10,7 @@ import { NavLink } from 'react-router-dom';
 
 const LeftBar = () => {
   const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   return (
     <div className="leftBar">
       <div className="container">
