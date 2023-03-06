@@ -13,7 +13,7 @@ import { makeRequest } from '../../axios';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/authContext';
 
-const Post = ({ post }) => {
+const Post = ({ post, setEditMode, setEditPostInfo }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -59,6 +59,11 @@ const Post = ({ post }) => {
     deleteMutation.mutate(post.id);
   };
 
+  const handleEdit = () => {
+    setEditPostInfo({ postId: post.id, desc: post.desc, img: post.img });
+    setEditMode(true);
+  };
+
   return (
     <div className="post">
       <div className="container">
@@ -83,7 +88,10 @@ const Post = ({ post }) => {
           </div>
           <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />
           {menuOpen && post.userId === currentUser.id && (
-            <button onClick={handleDelete}>delete</button>
+            <>
+              <button onClick={handleDelete}>delete</button>
+              <button onClick={handleEdit}>Edit Post</button>
+            </>
           )}
         </div>
         <div className="content">

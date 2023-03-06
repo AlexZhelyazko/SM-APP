@@ -1,15 +1,18 @@
 import './share.scss';
 import Image from '../../assets/img.png';
-import Map from '../../assets/map.png';
-import Friend from '../../assets/friend.png';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../context/authContext';
 import { useMutation, useQueryClient } from 'react-query';
 import { addPost, addPostImg, getPosts, makeRequest } from '../../axios';
 
-const Share = () => {
+const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState('');
+
+  useEffect(() => {
+    setDesc(editPostInfo?.desc);
+    setFile(editPostInfo?.img);
+  }, [editPostInfo]);
 
   const upload = async (e) => {
     try {
@@ -45,6 +48,28 @@ const Share = () => {
     mutation.mutate({ desc, img: imgUrl });
     setDesc('');
     setFile(null);
+  };
+
+  const editMutation = useMutation(
+    (post) => {
+      return makeRequest.put('/posts/' + editPostInfo.postId, post);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['posts']);
+      },
+    },
+  );
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    let imgUrl = '';
+    if (file) imgUrl = await upload();
+    editMutation.mutate({ desc, img: imgUrl });
+    setEditPostInfo(null);
+    setFile(null);
+    setDesc('');
+    setEditMode(false);
   };
 
   return (
@@ -86,17 +111,13 @@ const Share = () => {
                 <span>Add Image</span>
               </div>
             </label>
-            {/* <div className="item">
-              <img src={Map} alt="" />
-              <span>Add Place</span>
-            </div> */}
-            {/* <div className="item">
-              <img src={Friend} alt="" />
-              <span>Tag Friends</span>
-            </div> */}
           </div>
           <div className="right">
-            <button onClick={handleClick}>Share</button>
+            {editMode ? (
+              <button onClick={handleEdit}>Edit</button>
+            ) : (
+              <button onClick={handleClick}>Share</button>
+            )}
           </div>
         </div>
       </div>
