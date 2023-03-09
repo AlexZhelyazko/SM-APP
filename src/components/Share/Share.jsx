@@ -66,7 +66,7 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
     e.preventDefault();
     let imgUrl = '';
     if (file && typeof file !== 'string') imgUrl = await upload();
-    editMutation.mutate({ desc, img: imgUrl || file });
+    editMutation.mutate({ desc, img: typeof file === 'string' ? file : imgUrl });
     setEditPostInfo(null);
     setFile(null);
     setDesc('');
@@ -74,63 +74,66 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
   };
 
   return (
-    <div className="share">
-      <div className="container">
-        <div className="top">
-          <div className="left">
-            <img
-              src={
-                currentUser.profilePic
-                  ? '/upload/' + currentUser.profilePic
-                  : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
-              }
-              alt=""
-            />
-            <input
-              type="text"
-              placeholder={`What's on your mind ${currentUser.name}?`}
-              onChange={(e) => setDesc(e.target.value)}
-              value={desc}
-            />
-          </div>
-          <div className="right">
-            {file && (
+    <form enctype="multipart/form-data">
+      <div className="share">
+        <div className="container">
+          <div className="top">
+            <div className="left">
               <img
-                className="file"
+                src={
+                  currentUser.profilePic
+                    ? '/upload/' + currentUser.profilePic
+                    : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                }
                 alt=""
-                src={typeof file === 'string' ? '/upload/' + file : URL.createObjectURL(file)}
               />
-            )}
+              <input
+                type="text"
+                placeholder={`What's on your mind ${currentUser.name}?`}
+                onChange={(e) => setDesc(e.target.value)}
+                value={desc}
+              />
+            </div>
+            <div className="right">
+              {file && (
+                <img
+                  className="file"
+                  alt=""
+                  src={typeof file === 'string' ? '/upload/' + file : URL.createObjectURL(file)}
+                />
+              )}
+            </div>
           </div>
-        </div>
-        <hr />
-        <div className="bottom">
-          <div className="left">
-            <input
-              type="file"
-              id="file"
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                e.target.files.length > 0 && setFile(e.target.files[0]);
-              }}
-            />
-            <label htmlFor="file">
-              <div className="item">
-                <img src={Image} alt="" />
-                <span>Add Image</span>
-              </div>
-            </label>
-          </div>
-          <div className="right">
-            {editMode ? (
-              <button onClick={(e) => handleEdit(e)}>Edit</button>
-            ) : (
-              <button onClick={(e) => handleClick(e)}>Share</button>
-            )}
+          <hr />
+          <div className="bottom">
+            <div className="left">
+              <input
+                name="file"
+                type="file"
+                id="file"
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  e.target.files.length > 0 && setFile(e.target.files[0]);
+                }}
+              />
+              <label htmlFor="file">
+                <div className="item">
+                  <img src={Image} alt="" />
+                  <span>Add Image</span>
+                </div>
+              </label>
+            </div>
+            <div className="right">
+              {editMode ? (
+                <button onClick={(e) => handleEdit(e)}>Edit</button>
+              ) : (
+                <button onClick={(e) => handleClick(e)}>Share</button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
