@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { makeRequest } from '../../axios';
 import './update.scss';
 import { useMutation, useQueryClient } from 'react-query';
@@ -17,11 +17,12 @@ export const Update = ({ setOpenUpdate, user }) => {
     website: user.website,
   });
 
-  const upload = async (file) => {
+  const upload = async (e, file) => {
+    e.preventDefault();
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const res = await makeRequest.post('/upload', formData);
+      const res = await makeRequest.post('upload', formData);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -55,14 +56,14 @@ export const Update = ({ setOpenUpdate, user }) => {
     let profileUrl;
     console.log(profile);
     console.log(cover);
-    coverUrl = cover ? await upload(cover) : user.coverPic;
-    profileUrl = profile ? await upload(profile) : user.profilePic;
+    coverUrl = cover ? await upload(e, cover) : user.coverPic;
+    profileUrl = profile ? await upload(e, profile) : user.profilePic;
+    setCurrentUser({ ...texts, id: currentUser.id, coverPic: coverUrl, profilePic: profileUrl });
 
     mutation.mutate({ ...texts, coverPic: coverUrl, profilePic: profileUrl });
     setOpenUpdate(false);
     setCover(null);
     setProfile(null);
-    setCurrentUser({ ...texts, id: currentUser.id, coverPic: coverUrl, profilePic: profileUrl });
   };
   console.log(profile);
 
@@ -80,6 +81,7 @@ export const Update = ({ setOpenUpdate, user }) => {
               </div>
             </label>
             <input
+              name="file"
               type="file"
               id="cover"
               style={{ display: 'none' }}
@@ -96,6 +98,7 @@ export const Update = ({ setOpenUpdate, user }) => {
               </div>
             </label>
             <input
+              name="file"
               type="file"
               id="profile"
               style={{ display: 'none' }}
