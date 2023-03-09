@@ -18,7 +18,6 @@ export const Update = ({ setOpenUpdate, user }) => {
   });
 
   const upload = async (file) => {
-    console.log(file);
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -54,6 +53,8 @@ export const Update = ({ setOpenUpdate, user }) => {
 
     let coverUrl;
     let profileUrl;
+    console.log(profile);
+    console.log(cover);
     coverUrl = cover ? await upload(cover) : user.coverPic;
     profileUrl = profile ? await upload(profile) : user.profilePic;
 
@@ -63,6 +64,7 @@ export const Update = ({ setOpenUpdate, user }) => {
     setProfile(null);
     setCurrentUser({ ...texts, id: currentUser.id, coverPic: coverUrl, profilePic: profileUrl });
   };
+  console.log(profile);
 
   return (
     <div className="update">

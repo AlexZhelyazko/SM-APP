@@ -65,7 +65,7 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
   const handleEdit = async (e) => {
     e.preventDefault();
     let imgUrl = '';
-    if (file) imgUrl = await upload();
+    if (file && typeof file !== 'string') imgUrl = await upload();
     editMutation.mutate({ desc, img: imgUrl });
     setEditPostInfo(null);
     setFile(null);
@@ -123,9 +123,9 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
           </div>
           <div className="right">
             {editMode ? (
-              <button onClick={handleEdit}>Edit</button>
+              <button onClick={(e) => handleEdit(e)}>Edit</button>
             ) : (
-              <button onClick={handleClick}>Share</button>
+              <button onClick={(e) => handleClick(e)}>Share</button>
             )}
           </div>
         </div>

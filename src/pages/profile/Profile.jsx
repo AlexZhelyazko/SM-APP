@@ -57,13 +57,15 @@ const Profile = () => {
     return <div>Load</div>;
   }
 
+  console.log(data);
+
   return (
     <div className="profile">
       <div className="images">
         <img
           src={
             data.coverPic
-              ? data.coverPic
+              ? '/upload/' + data.coverPic
               : 'https://images.unsplash.com/photo-1619251173183-eccbb0f03cd2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c2ltcGxlJTIwY29sb3J8ZW58MHx8MHx8&w=1000&q=80'
           }
           alt=""
@@ -72,7 +74,7 @@ const Profile = () => {
         <img
           src={
             data.profilePic
-              ? data.profilePic
+              ? '/upload/' + data.profilePic
               : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
           }
           alt=""
