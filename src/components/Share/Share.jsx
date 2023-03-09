@@ -8,6 +8,7 @@ import { addPost, addPostImg, getPosts, makeRequest } from '../../axios';
 const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState('');
+  console.log(typeof file);
 
   useEffect(() => {
     setDesc(editPostInfo?.desc);
@@ -93,7 +94,13 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
             />
           </div>
           <div className="right">
-            {file && <img className="file" alt="" src={URL.createObjectURL(file)} />}
+            {file && (
+              <img
+                className="file"
+                alt=""
+                src={typeof file === 'string' ? '/upload/' + file : URL.createObjectURL(file)}
+              />
+            )}
           </div>
         </div>
         <hr />
@@ -103,7 +110,9 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
               type="file"
               id="file"
               style={{ display: 'none' }}
-              onChange={(e) => setFile(e.target.files[0])}
+              onChange={(e) => {
+                e.target.files.length > 0 && setFile(e.target.files[0]);
+              }}
             />
             <label htmlFor="file">
               <div className="item">
