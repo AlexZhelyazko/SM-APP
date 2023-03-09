@@ -66,7 +66,7 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
     e.preventDefault();
     let imgUrl = '';
     if (file && typeof file !== 'string') imgUrl = await upload();
-    editMutation.mutate({ desc, img: imgUrl });
+    editMutation.mutate({ desc, img: imgUrl || file });
     setEditPostInfo(null);
     setFile(null);
     setDesc('');
