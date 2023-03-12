@@ -13,6 +13,8 @@ export const Friends = () => {
     }),
   );
 
+  console.log(followings);
+
   if (isLoading) return <div>Loading</div>;
   return (
     <div>
@@ -21,8 +23,9 @@ export const Friends = () => {
           <div className="following">
             <img
               src={
-                el.profilePic ||
-                'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                el.profilePic
+                  ? '/upload/' + el.profilePic
+                  : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
               }
               alt=""
             />
