@@ -3,6 +3,8 @@ import { useContext } from 'react';
 import { useQuery } from 'react-query';
 import { makeRequest } from '../../axios';
 import { AuthContext } from '../../context/authContext';
+import { NavLink } from 'react-router-dom';
+import { Loader } from '../Loader/Loader';
 
 export const Friends = () => {
   const { currentUser } = useContext(AuthContext);
@@ -15,20 +17,22 @@ export const Friends = () => {
 
   console.log(followings);
 
-  if (isLoading) return <div>Loading</div>;
+  if (isLoading) return <Loader />;
   return (
     <div className="followings">
       {followings.map((el) => {
         return (
           <div className="following">
-            <img
-              src={
-                el.profilePic
-                  ? '/upload/' + el.profilePic
-                  : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
-              }
-              alt=""
-            />
+            <NavLink to={`/profile/${el.followedUserId}`}>
+              <img
+                src={
+                  el.profilePic
+                    ? '/upload/' + el.profilePic
+                    : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                }
+                alt=""
+              />
+            </NavLink>
             <div className="followingInfo">
               <div>{el.name}</div>
             </div>

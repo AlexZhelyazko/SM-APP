@@ -14,6 +14,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { makeRequest } from '../../axios';
 import { AuthContext } from '../../context/authContext';
+import { Loader } from '../../components/Loader/Loader';
 
 const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -54,7 +55,7 @@ const Profile = () => {
   };
 
   if (isLoading) {
-    return <div>Load</div>;
+    return <Loader />;
   }
 
   console.log(data);

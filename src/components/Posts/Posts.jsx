@@ -2,6 +2,7 @@ import Post from '../Post/Post';
 import { useQuery } from 'react-query';
 import './posts.scss';
 import { getPosts, makeRequest } from '../../axios';
+import { Loader } from '../Loader/Loader';
 
 const Posts = ({ userId, setEditPostInfo, setEditMode }) => {
   const { isLoading, error, data } = useQuery(['posts'], () =>
@@ -12,18 +13,20 @@ const Posts = ({ userId, setEditPostInfo, setEditMode }) => {
 
   return (
     <div className="posts">
-      {error
-        ? 'Something went wrong!'
-        : isLoading || data === undefined
-        ? 'loading'
-        : data.map((post) => (
-            <Post
-              setEditPostInfo={setEditPostInfo}
-              setEditMode={setEditMode}
-              post={post}
-              key={post.id}
-            />
-          ))}
+      {error ? (
+        'Something went wrong!'
+      ) : isLoading || data === undefined ? (
+        <Loader />
+      ) : (
+        data.map((post) => (
+          <Post
+            setEditPostInfo={setEditPostInfo}
+            setEditMode={setEditMode}
+            post={post}
+            key={post.id}
+          />
+        ))
+      )}
     </div>
   );
 };

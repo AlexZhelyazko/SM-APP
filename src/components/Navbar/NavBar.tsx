@@ -47,7 +47,9 @@ const Navbar = () => {
       <div className="right">
         <PersonOutlinedIcon />
         <EmailOutlinedIcon />
-        <button onClick={handleLogout}>Logout</button>
+        <button className="logout" onClick={handleLogout}>
+          Logout
+        </button>
         <div className="user">
           <img
             src={

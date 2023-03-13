@@ -55,6 +55,15 @@
       align-items: center;
       gap: 20px;
 
+      .logout{
+        width: 5em;
+        height: 2em;
+        background-color: #f0544f;
+        color: white;
+        letter-spacing: 1px;
+        cursor: pointer;
+      }
+
       @include mobile{
         display: none;
       }
