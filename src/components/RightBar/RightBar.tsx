@@ -1,6 +1,19 @@
 import './rightbar.scss';
+import { useContext } from 'react';
+import { useQuery } from 'react-query';
+import { makeRequest } from '../../axios';
+import { AuthContext } from '../../context/authContext';
 
 const RightBar = () => {
+  const { currentUser } = useContext(AuthContext);
+  const { isLoading: relationshipLoading, data: relationshipData } = useQuery(
+    ['relationship'],
+    () =>
+      makeRequest.get('/relationships?followedUserId=' + currentUser.id).then((res) => {
+        return res.data;
+      }),
+  );
+  console.log(relationshipData);
   return (
     <div className="rightBar">
       <div className="container">
