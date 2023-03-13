@@ -17,7 +17,7 @@ export const Friends = () => {
 
   if (isLoading) return <div>Loading</div>;
   return (
-    <div>
+    <div className="followings">
       {followings.map((el) => {
         return (
           <div className="following">
