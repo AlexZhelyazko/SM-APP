@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import './stories.scss';
 import { AuthContext } from '../../context/authContext.js';
 
-const Stories = () => {
+const Stories = ({ setWebCamVisible }) => {
   const { currentUser } = useContext(AuthContext);
 
   //TEMPORARY
@@ -34,7 +34,7 @@ const Stories = () => {
       <div className="story">
         <img src={currentUser.profilePic} alt="" />
         <span>{currentUser.name}</span>
-        <button>+</button>
+        <button onClick={() => setWebCamVisible(true)}>+</button>
       </div>
       {stories.map((story) => (
         <div className="story" key={story.id}>
