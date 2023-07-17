@@ -1,14 +1,14 @@
-import './register.scss';
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import axios from 'axios';
+import "./register.scss";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 export const Register = () => {
   const [inputs, setInputs] = useState({
-    username: '',
-    email: '',
-    password: '',
-    name: '',
+    username: "",
+    email: "",
+    password: "",
+    name: "",
   });
   const [err, setErr] = useState(null);
 
@@ -20,9 +20,13 @@ export const Register = () => {
     e.preventDefault();
     try {
       setErr(null);
-      const res = await axios.post('http://localhost:8800/api/auth/register', inputs);
+      const res = await axios.post(
+        "http://localhost:8800/api/auth/register",
+        inputs
+      );
       console.log(res);
     } catch (error: any) {
+      console.log(error);
       setErr(error.response.data);
     }
   };
@@ -60,7 +64,12 @@ export const Register = () => {
               name="password"
               onChange={(e) => handleChange(e)}
             />
-            <input type="text" placeholder="Name" name="name" onChange={(e) => handleChange(e)} />
+            <input
+              type="text"
+              placeholder="Name"
+              name="name"
+              onChange={(e) => handleChange(e)}
+            />
             {err && <div>{err}</div>}
             <button onClick={(e) => handleClick(e)}>Register</button>
           </form>

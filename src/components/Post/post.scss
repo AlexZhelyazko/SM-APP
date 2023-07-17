@@ -41,6 +41,20 @@
             }
           }
         }
+        .editPost_buttons {
+          width: 40%;
+          display: flex;
+
+          button {
+            width: 80px;
+            background-color: transparent;
+            border: none;
+            font-size: 13px;
+            letter-spacing: 1px;
+            border-bottom: solid themed("textColor") 1px;
+            color: themed("textColor");
+          }
+        }
       }
 
       .content {

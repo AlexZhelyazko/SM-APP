@@ -1,17 +1,17 @@
-import './post.scss';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Link } from 'react-router-dom';
-import Comments from '../Comments/Comments';
-import { useState } from 'react';
-import moment from 'moment';
-import { useQuery, useQueryClient, useMutation } from 'react-query';
-import { makeRequest } from '../../axios';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/authContext';
+import "./post.scss";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Link } from "react-router-dom";
+import Comments from "../Comments/Comments";
+import { useState } from "react";
+import moment from "moment";
+import { useQuery, useQueryClient, useMutation } from "react-query";
+import { makeRequest } from "../../axios";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const Post = ({ post, setEditMode, setEditPostInfo }) => {
   const [commentOpen, setCommentOpen] = useState(false);
@@ -19,36 +19,36 @@ const Post = ({ post, setEditMode, setEditPostInfo }) => {
 
   const { currentUser } = useContext(AuthContext);
 
-  const { isLoading, error, data } = useQuery(['likes', post.id], () =>
-    makeRequest.get('/likes?postId=' + post.id).then((res) => {
+  const { isLoading, error, data } = useQuery(["likes", post.id], () =>
+    makeRequest.get("/likes?postId=" + post.id).then((res) => {
       return res.data;
-    }),
+    })
   );
 
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
     (liked) => {
-      if (liked) return makeRequest.delete('/likes?postId=' + post.id);
-      return makeRequest.post('/likes', { postId: post.id });
+      if (liked) return makeRequest.delete("/likes?postId=" + post.id);
+      return makeRequest.post("/likes", { postId: post.id });
     },
     {
       onSuccess: () => {
         // Invalidate and refetch
-        queryClient.invalidateQueries(['likes']);
+        queryClient.invalidateQueries(["likes"]);
       },
-    },
+    }
   );
   const deleteMutation = useMutation(
     (postId) => {
-      return makeRequest.delete('/posts/' + postId);
+      return makeRequest.delete("/posts/" + postId);
     },
     {
       onSuccess: () => {
         // Invalidate and refetch
-        queryClient.invalidateQueries(['posts']);
+        queryClient.invalidateQueries(["posts"]);
       },
-    },
+    }
   );
 
   const handleLike = () => {
@@ -72,38 +72,55 @@ const Post = ({ post, setEditMode, setEditPostInfo }) => {
             <img
               src={
                 post.profilePic
-                  ? '/upload/' + post.profilePic
-                  : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                  ? "/upload/" + post.profilePic
+                  : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
               }
               alt=""
             />
             <div className="details">
               <Link
                 to={`/profile/${post.userId}`}
-                style={{ textDecoration: 'none', color: 'inherit' }}>
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
                 <span className="name">{post.name}</span>
               </Link>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
-          <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />
-          {menuOpen && post.userId === currentUser.id && (
-            <>
-              <button onClick={handleDelete}>delete</button>
-              <button onClick={handleEdit}>Edit Post</button>
-            </>
-          )}
+          <div
+            style={
+              menuOpen
+                ? { justifyContent: "space-between" }
+                : { justifyContent: "flex-end" }
+            }
+            className="editPost_buttons"
+          >
+            {menuOpen && post.userId === currentUser.id && (
+              <>
+                <button className="deleteBtn" onClick={handleDelete}>
+                  Delete
+                </button>
+                <button className="editBtn" onClick={handleEdit}>
+                  Edit Post
+                </button>
+              </>
+            )}
+            <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
         </div>
         <div className="content">
           <p>{post.desc}</p>
-          <img src={'/upload/' + post.img} alt="" />
+          <img src={"/upload/" + post.img} alt="" />
         </div>
         <div className="info">
           <div className="item">
             {isLoading ? (
-              'loading'
+              "loading"
             ) : data.includes(currentUser.id) ? (
-              <FavoriteOutlinedIcon style={{ color: 'red' }} onClick={handleLike} />
+              <FavoriteOutlinedIcon
+                style={{ color: "red" }}
+                onClick={handleLike}
+              />
             ) : (
               <FavoriteBorderOutlinedIcon onClick={handleLike} />
             )}
