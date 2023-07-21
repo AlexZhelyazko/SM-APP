@@ -1,9 +1,9 @@
-import Posts from '../../components/Posts/Posts';
-import Share from '../../components/Share/Share';
-import Stories from '../../components/Storie/Stories';
-import { useState } from 'react';
-import './home.scss';
-import WebcamVideo from '../../components/WebcamVideo/WebcamVideo';
+import Posts from "../../components/Posts/Posts";
+import Share from "../../components/Share/Share";
+import Stories from "../../components/Storie/Stories";
+import { useState } from "react";
+import "./home.scss";
+import { WebcamVideo } from "../../components/WebcamVideo/WebcamVideo";
 
 export const Home = () => {
   const [editMode, setEditMode] = useState(false);

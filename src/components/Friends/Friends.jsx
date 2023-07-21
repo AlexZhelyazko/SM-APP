@@ -1,18 +1,18 @@
-import './Friends.scss';
-import { useContext } from 'react';
-import { useQuery } from 'react-query';
-import { makeRequest } from '../../axios';
-import { AuthContext } from '../../context/authContext';
-import { NavLink } from 'react-router-dom';
-import { Loader } from '../Loader/Loader';
+import "./Friends.scss";
+import { useContext } from "react";
+import { useQuery } from "react-query";
+import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/authContext";
+import { NavLink } from "react-router-dom";
+import { Loader } from "../Loader/Loader";
 
 export const Friends = () => {
   const { currentUser } = useContext(AuthContext);
 
-  const { isLoading, data: followings } = useQuery(['relationship'], () =>
-    makeRequest.get('/friends?followerUserId=' + currentUser.id).then((res) => {
+  const { isLoading, data: followings } = useQuery(["relationship"], () =>
+    makeRequest.get("/friends?followerUserId=" + currentUser.id).then((res) => {
       return res.data;
-    }),
+    })
   );
 
   console.log(followings);
@@ -20,15 +20,15 @@ export const Friends = () => {
   if (isLoading) return <Loader />;
   return (
     <div className="followings">
-      {followings.map((el) => {
+      {followings?.map((el) => {
         return (
           <div className="following">
             <NavLink to={`/profile/${el.followedUserId}`}>
               <img
                 src={
                   el.profilePic
-                    ? '/upload/' + el.profilePic
-                    : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                    ? "/upload/" + el.profilePic
+                    : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                 }
                 alt=""
               />

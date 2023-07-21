@@ -1,75 +1,84 @@
-import React, { useCallback, useRef, useState } from 'react';
-import Webcam from 'react-webcam';
+import React, { useState, useRef } from "react";
+import Webcam from "react-webcam";
 
-export default function WebcamVideo({ setWebCamVisible }) {
+export const WebcamVideo = () => {
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
-  const [capturing, setCapturing] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
 
-  const handleDataAvailable = useCallback(
-    ({ data }) => {
-      if (data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(data));
-      }
-    },
-    [setRecordedChunks],
-  );
-
-  const handleStartCaptureClick = useCallback(() => {
-    setCapturing(true);
-    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: 'video/webm',
-    });
-    mediaRecorderRef.current.addEventListener('dataavailable', handleDataAvailable);
-    mediaRecorderRef.current.start();
-  }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
-
-  const handleStopCaptureClick = useCallback(() => {
-    setWebCamVisible(false);
-    mediaRecorderRef.current.stop();
-    setCapturing(false);
-  }, [mediaRecorderRef, setCapturing]);
-
-  const handleDownload = useCallback(() => {
-    if (recordedChunks.length) {
-      const blob = new Blob(recordedChunks, {
-        type: 'video/webm',
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      webcamRef.current.srcObject = stream;
+      mediaRecorderRef.current = new MediaRecorder(stream, {
+        mimeType: "video/webm",
       });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.style = 'display: none';
-      a.href = url;
-      a.download = 'react-webcam-stream-capture.webm';
-      a.click();
-      window.URL.revokeObjectURL(url);
-      setRecordedChunks([]);
-    }
-  }, [recordedChunks]);
 
-  const videoConstraints = {
-    width: 420,
-    height: 420,
-    facingMode: 'user',
+      mediaRecorderRef.current.ondataavailable = handleDataAvailable;
+      mediaRecorderRef.current.onstop = handleStopRecording;
+
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+    } catch (err) {
+      console.error("Error accessing the webcam:", err);
+    }
+  };
+
+  const handleStartRecording = () => {
+    startRecording();
+  };
+
+  const handleStopRecording = () => {
+    mediaRecorderRef.current.stop();
+    setIsRecording(false);
+  };
+
+  const handleDataAvailable = (e) => {
+    if (e.data.size > 0) {
+      setRecordedChunks((prev) => prev.concat(e.data));
+    }
+  };
+
+  const handleDownload = () => {
+    const blob = new Blob(recordedChunks, { type: "video/webm" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "recorded-video.webm";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    setRecordedChunks([]);
   };
 
   return (
-    <div className="Container">
-      <Webcam
-        height={400}
-        width={400}
-        audio={true}
-        mirrored={true}
-        ref={webcamRef}
-        videoConstraints={videoConstraints}
-      />
-      {capturing ? (
-        <button onClick={handleStopCaptureClick}>Stop Capture</button>
-      ) : (
-        <button onClick={handleStartCaptureClick}>Start Capture</button>
+    <div>
+      <div>
+        <video ref={webcamRef} autoPlay style={{ width: 640, height: 480 }} />
+      </div>
+      <div>
+        {isRecording ? (
+          <button onClick={handleStopRecording}>Stop Recording</button>
+        ) : (
+          <button onClick={handleStartRecording}>Start Recording</button>
+        )}
+      </div>
+      {recordedChunks.length > 0 && (
+        <div>
+          <h2>Recorded Video:</h2>
+          <video controls autoPlay style={{ width: 640, height: 480 }}>
+            {recordedChunks.map((chunk, index) => (
+              <source
+                key={index}
+                src={URL.createObjectURL(chunk)}
+                type="video/webm"
+              />
+            ))}
+          </video>
+          <button onClick={handleDownload}>Download</button>
+        </div>
       )}
-      {recordedChunks.length > 0 && <button onClick={handleDownload}>Download</button>}
     </div>
   );
-}
+};
