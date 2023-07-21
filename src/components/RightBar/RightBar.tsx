@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
+import OnlineFriends from "../OnlineFriends/OnlineFriends";
 
 const RightBar = () => {
   const { currentUser } = useContext(AuthContext);
@@ -63,29 +64,7 @@ const RightBar = () => {
             <span>1 min ago</span>
           </div>
         </div>
-        <div className="item">
-          <span>Online Friends</span>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-        </div>
+        <OnlineFriends />
       </div>
     </div>
   );
