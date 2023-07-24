@@ -1,28 +1,29 @@
-import './leftbar.scss';
-import { useContext } from 'react';
-import Friends from '../../assets/1.png';
-import Groups from '../../assets/2.png';
-import Events from '../../assets/6.png';
-import Gaming from '../../assets/7.png';
-import Messages from '../../assets/10.png';
-import { AuthContext } from '../../context/authContext';
-import { NavLink } from 'react-router-dom';
+import "./leftbar.scss";
+import { useContext } from "react";
+import Friends from "../../assets/1.png";
+import Groups from "../../assets/2.png";
+import Events from "../../assets/6.png";
+import Gaming from "../../assets/7.png";
+import Messages from "../../assets/10.png";
+import { AuthContext } from "../../context/authContext";
+import { NavLink } from "react-router-dom";
+import OnlineStatusIndicator from "../OnlineStatus/OnlineStatus";
 
 const LeftBar = () => {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
   return (
     <div className="leftBar">
       <div className="container">
         <div className="menu">
           <div className="user">
+            {/* <OnlineStatusIndicator /> */}
             <NavLink to={`/profile/${currentUser.id}`}>
               <span>
                 <img
                   src={
                     currentUser.profilePic
-                      ? '/upload/' + currentUser.profilePic
-                      : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                      ? "/upload/" + currentUser.profilePic
+                      : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                   }
                   alt="profilePic"
                 />

@@ -1,14 +1,13 @@
-import './share.scss';
-import Image from '../../assets/img.png';
-import { useContext, useState, useEffect } from 'react';
-import { AuthContext } from '../../context/authContext';
-import { useMutation, useQueryClient } from 'react-query';
-import { addPost, addPostImg, getPosts, makeRequest } from '../../axios';
+import "./share.scss";
+import Image from "../../assets/img.png";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../context/authContext";
+import { useMutation, useQueryClient } from "react-query";
+import { addPost, addPostImg, getPosts, makeRequest } from "../../axios";
 
 const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
   const [file, setFile] = useState(null);
-  const [desc, setDesc] = useState('');
-  console.log(typeof file);
+  const [desc, setDesc] = useState("");
 
   useEffect(() => {
     setDesc(editPostInfo?.desc);
@@ -18,8 +17,8 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
   const upload = async (e) => {
     try {
       const formData = new FormData();
-      formData.append('file', file);
-      const res = await makeRequest.post('/upload', formData);
+      formData.append("file", file);
+      const res = await makeRequest.post("/upload", formData);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -32,44 +31,47 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
 
   const mutation = useMutation(
     (newPost) => {
-      return makeRequest.post('/posts', newPost);
+      return makeRequest.post("/posts", newPost);
     },
     {
       onSuccess: () => {
         // Invalidate and refetch
-        queryClient.invalidateQueries(['posts']);
+        queryClient.invalidateQueries(["posts"]);
       },
-    },
+    }
   );
 
   const handleClick = async (e) => {
     e.preventDefault();
-    let imgUrl = '';
+    let imgUrl = "";
     if (file) imgUrl = await upload();
     mutation.mutate({ desc, img: imgUrl });
-    setDesc('');
+    setDesc("");
     setFile(null);
   };
 
   const editMutation = useMutation(
     (post) => {
-      return makeRequest.put('/posts/' + editPostInfo.postId, post);
+      return makeRequest.put("/posts/" + editPostInfo.postId, post);
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['posts']);
+        queryClient.invalidateQueries(["posts"]);
       },
-    },
+    }
   );
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    let imgUrl = '';
-    if (file && typeof file !== 'string') imgUrl = await upload();
-    editMutation.mutate({ desc, img: typeof file === 'string' ? file : imgUrl });
+    let imgUrl = "";
+    if (file && typeof file !== "string") imgUrl = await upload();
+    editMutation.mutate({
+      desc,
+      img: typeof file === "string" ? file : imgUrl,
+    });
     setEditPostInfo(null);
     setFile(null);
-    setDesc('');
+    setDesc("");
     setEditMode(false);
   };
 
@@ -82,8 +84,8 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
               <img
                 src={
                   currentUser.profilePic
-                    ? '/upload/' + currentUser.profilePic
-                    : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                    ? "/upload/" + currentUser.profilePic
+                    : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                 }
                 alt=""
               />
@@ -99,7 +101,11 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
                 <img
                   className="file"
                   alt=""
-                  src={typeof file === 'string' ? '/upload/' + file : URL.createObjectURL(file)}
+                  src={
+                    typeof file === "string"
+                      ? "/upload/" + file
+                      : URL.createObjectURL(file)
+                  }
                 />
               )}
             </div>
@@ -111,7 +117,7 @@ const Share = ({ editMode, setEditMode, setEditPostInfo, editPostInfo }) => {
                 name="file"
                 type="file"
                 id="file"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 onChange={(e) => {
                   e.target.files.length > 0 && setFile(e.target.files[0]);
                 }}

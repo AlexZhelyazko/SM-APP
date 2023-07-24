@@ -16,7 +16,6 @@ const RightBar = () => {
           return res.data;
         })
   );
-  console.log(relationshipData);
   return (
     <div className="rightBar">
       <div className="container">

@@ -1,17 +1,20 @@
-import { useContext } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { Friends } from './components/Friends/Friends';
-import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
-import { AuthContext } from './context/authContext';
-import { Layout } from './layout/Layout';
-import { Home } from './pages/home/Home';
-import { Login } from './pages/login/Login';
-import Profile from './pages/profile/Profile';
-import { Register } from './pages/register/Register';
-import './style.scss';
+import { useContext } from "react";
+import { Routes, Route } from "react-router-dom";
+import { Friends } from "./components/Friends/Friends";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { AuthContext } from "./context/authContext";
+import { Layout } from "./layout/Layout";
+import { Home } from "./pages/home/Home";
+import { Login } from "./pages/login/Login";
+import Profile from "./pages/profile/Profile";
+import { Register } from "./pages/register/Register";
+import "./style.scss";
+import useWebSocketClient from "./hooks/useWebSocketClient";
 
-export const App: React.FC = () => {
+export const App = () => {
   const { currentUser } = useContext(AuthContext);
+  const webSocket = useWebSocketClient("ws://localhost:8800");
+
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
@@ -22,7 +25,8 @@ export const App: React.FC = () => {
           <ProtectedRoute currentUser={currentUser}>
             <Layout />
           </ProtectedRoute>
-        }>
+        }
+      >
         <Route
           path="/"
           element={
@@ -35,7 +39,7 @@ export const App: React.FC = () => {
           path="/profile/:id"
           element={
             <ProtectedRoute currentUser={currentUser}>
-              <Profile />
+              <Profile webSocket={webSocket} />
             </ProtectedRoute>
           }
         />
