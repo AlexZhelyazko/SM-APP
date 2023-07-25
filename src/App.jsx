@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Friends } from "./components/Friends/Friends";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
@@ -9,11 +9,9 @@ import { Login } from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
 import { Register } from "./pages/register/Register";
 import "./style.scss";
-import useWebSocketClient from "./hooks/useWebSocketClient";
 
 export const App = () => {
   const { currentUser } = useContext(AuthContext);
-  const webSocket = useWebSocketClient("ws://localhost:8800");
 
   return (
     <Routes>
@@ -39,7 +37,7 @@ export const App = () => {
           path="/profile/:id"
           element={
             <ProtectedRoute currentUser={currentUser}>
-              <Profile webSocket={webSocket} />
+              <Profile />
             </ProtectedRoute>
           }
         />

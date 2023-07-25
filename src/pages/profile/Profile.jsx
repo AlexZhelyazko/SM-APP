@@ -15,15 +15,13 @@ import { useParams } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 import { Loader } from "../../components/Loader/Loader";
-import useUserOnlineStatus from "../../hooks/useUserOnlineStatus";
+import useUserOnlineStatus from "../../hooks/useOnlineStatus";
 
-const Profile = ({ webSocket }) => {
+const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const params = useParams();
   const { currentUser } = useContext(AuthContext);
-  const isCurrentUserOnline = useUserOnlineStatus(webSocket, params.id);
-  console.log(webSocket);
-  console.log(isCurrentUserOnline);
+  const isCurrentUserOnline = useUserOnlineStatus(params.id);
 
   const { isLoading, error, data } = useQuery(["users"], () =>
     makeRequest.get("/users/find/" + params.id).then((res) => {
@@ -64,8 +62,6 @@ const Profile = ({ webSocket }) => {
   if (isLoading) {
     return <Loader />;
   }
-
-  console.log(data);
 
   return (
     <div className="profile">

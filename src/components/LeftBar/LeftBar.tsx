@@ -7,7 +7,6 @@ import Gaming from "../../assets/7.png";
 import Messages from "../../assets/10.png";
 import { AuthContext } from "../../context/authContext";
 import { NavLink } from "react-router-dom";
-import OnlineStatusIndicator from "../OnlineStatus/OnlineStatus";
 
 const LeftBar = () => {
   const { currentUser } = useContext(AuthContext);
