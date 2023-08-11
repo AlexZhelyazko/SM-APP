@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Friends } from "./components/Friends/Friends";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
@@ -9,9 +9,12 @@ import { Login } from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
 import { Register } from "./pages/register/Register";
 import "./style.scss";
+import useOnlineUsersStatus from "./hooks/useOnlineStatus";
 
 export const App = () => {
   const { currentUser } = useContext(AuthContext);
+  const onlineUsers = useOnlineUsersStatus(currentUser?.id); // Используем хук
+  console.log(onlineUsers);
 
   return (
     <Routes>
@@ -37,7 +40,7 @@ export const App = () => {
           path="/profile/:id"
           element={
             <ProtectedRoute currentUser={currentUser}>
-              <Profile />
+              <Profile onlineUsers={onlineUsers} />
             </ProtectedRoute>
           }
         />

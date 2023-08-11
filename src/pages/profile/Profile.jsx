@@ -15,13 +15,11 @@ import { useParams } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 import { Loader } from "../../components/Loader/Loader";
-import useUserOnlineStatus from "../../hooks/useOnlineStatus";
 
-const Profile = () => {
+const Profile = ({ onlineUsers }) => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const params = useParams();
   const { currentUser } = useContext(AuthContext);
-  const isCurrentUserOnline = useUserOnlineStatus(params.id);
 
   const { isLoading, error, data } = useQuery(["users"], () =>
     makeRequest.get("/users/find/" + params.id).then((res) => {
@@ -86,7 +84,9 @@ const Profile = () => {
         />
       </div>
       <div className="profileContainer">
-        <div>Status: {isCurrentUserOnline ? "Online" : "Offline"}</div>
+        <div>
+          Status: {onlineUsers.includes(+params.id) ? "Online" : "Offline"}
+        </div>
         <div className="uInfo">
           <div className="left">
             <a href="http://facebook.com">
