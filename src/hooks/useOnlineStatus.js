@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const useOnlineUsersStatus = (userId) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
+    if (
+      !userId ||
+      location.pathname.includes("/login") ||
+      location.pathname.includes("/register")
+    ) {
+      return; // Ignore the hook on login and register pages
+    }
     const socket = new WebSocket("ws://localhost:8888");
 
     socket.onopen = () => {

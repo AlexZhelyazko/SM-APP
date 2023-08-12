@@ -26,6 +26,16 @@
         margin: auto;
         top: 200px;
       }
+
+      .onlineStatus {
+        width: 45px;
+        height: 45px;
+        border-radius: 35px;
+        position: absolute;
+        background-color: #9aff00;
+        top: 73%;
+        left: 55%;
+      }
     }
     .profileContainer {
       padding: 20px 70px;

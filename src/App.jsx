@@ -13,7 +13,7 @@ import useOnlineUsersStatus from "./hooks/useOnlineStatus";
 
 export const App = () => {
   const { currentUser } = useContext(AuthContext);
-  const onlineUsers = useOnlineUsersStatus(currentUser?.id); // Используем хук
+  const onlineUsers = useOnlineUsersStatus(currentUser?.id);
 
   return (
     <Routes>

@@ -24,20 +24,23 @@ export const Friends = ({ onlineUsers }) => {
         return (
           <div className="following">
             <NavLink to={`/profile/${el.followedUserId}`}>
-              <img
-                src={
-                  el.profilePic
-                    ? "/upload/" + el.profilePic
-                    : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-                }
-                alt=""
-              />
+              <div style={{ position: "relative" }}>
+                <img
+                  src={
+                    el.profilePic
+                      ? "/upload/" + el.profilePic
+                      : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                  }
+                  alt=""
+                />
+                {onlineUsers.includes(+el.followedUserId) ? (
+                  <div className="onlineStatus"></div>
+                ) : (
+                  ""
+                )}
+              </div>
             </NavLink>
-            {onlineUsers.includes(+el.followedUserId) ? (
-              <div className="onlineStatus"></div>
-            ) : (
-              ""
-            )}
+
             <div className="followingInfo">
               <div>{el.name}</div>
             </div>
