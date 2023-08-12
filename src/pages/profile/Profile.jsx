@@ -82,11 +82,13 @@ const Profile = ({ onlineUsers }) => {
           alt=""
           className="profilePic"
         />
+        {onlineUsers.includes(+params.id) ? (
+          <div className="onlineStatus"></div>
+        ) : (
+          ""
+        )}
       </div>
       <div className="profileContainer">
-        <div>
-          Status: {onlineUsers.includes(+params.id) ? "Online" : "Offline"}
-        </div>
         <div className="uInfo">
           <div className="left">
             <a href="http://facebook.com">

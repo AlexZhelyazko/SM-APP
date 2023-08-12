@@ -6,7 +6,7 @@ import { AuthContext } from "../../context/authContext";
 import { NavLink } from "react-router-dom";
 import { Loader } from "../Loader/Loader";
 
-export const Friends = () => {
+export const Friends = ({ onlineUsers }) => {
   const { currentUser } = useContext(AuthContext);
 
   const { isLoading, data: followings } = useQuery(["relationship"], () =>
@@ -33,6 +33,11 @@ export const Friends = () => {
                 alt=""
               />
             </NavLink>
+            {onlineUsers.includes(+el.followedUserId) ? (
+              <div className="onlineStatus"></div>
+            ) : (
+              ""
+            )}
             <div className="followingInfo">
               <div>{el.name}</div>
             </div>

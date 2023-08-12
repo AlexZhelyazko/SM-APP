@@ -14,7 +14,6 @@ import useOnlineUsersStatus from "./hooks/useOnlineStatus";
 export const App = () => {
   const { currentUser } = useContext(AuthContext);
   const onlineUsers = useOnlineUsersStatus(currentUser?.id); // Используем хук
-  console.log(onlineUsers);
 
   return (
     <Routes>
@@ -44,7 +43,10 @@ export const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/followings" element={<Friends />} />
+        <Route
+          path="/followings"
+          element={<Friends onlineUsers={onlineUsers} />}
+        />
       </Route>
     </Routes>
   );
