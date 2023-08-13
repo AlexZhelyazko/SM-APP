@@ -1,3 +1,4 @@
+// useOnlineUsersStatus.js
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -23,7 +24,6 @@ const useOnlineUsersStatus = (userId) => {
     socket.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        console.log(data);
         if (data.type === "online-status-update") {
           setOnlineUsers(data.onlineUsers);
         }
@@ -36,7 +36,15 @@ const useOnlineUsersStatus = (userId) => {
       console.log("WebSocket connection closed");
     };
 
+    // Обработчик разлогинивания или закрытия вкладки
+    const handleLogoutOrClose = () => {
+      socket.send(JSON.stringify({ type: "user-logout", userId }));
+      socket.close();
+    };
+
+    window.addEventListener("beforeunload", handleLogoutOrClose);
     return () => {
+      window.removeEventListener("beforeunload", handleLogoutOrClose);
       socket.close();
     };
   }, []);

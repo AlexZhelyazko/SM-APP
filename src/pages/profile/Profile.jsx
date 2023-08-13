@@ -128,7 +128,6 @@ const Profile = ({ onlineUsers }) => {
               </button>
             )}
           </div>
-          <div>Status:</div>
           <div className="right">
             <EmailOutlinedIcon />
             <MoreVertIcon />

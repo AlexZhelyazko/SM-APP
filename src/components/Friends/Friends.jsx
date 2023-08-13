@@ -15,8 +15,6 @@ export const Friends = ({ onlineUsers }) => {
     })
   );
 
-  console.log(followings);
-
   if (isLoading) return <Loader />;
   return (
     <div className="followings">
