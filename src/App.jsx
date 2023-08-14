@@ -13,7 +13,9 @@ import useOnlineUsersStatus from "./hooks/useOnlineStatus";
 
 export const App = () => {
   const { currentUser } = useContext(AuthContext);
-  const onlineUsers = useOnlineUsersStatus(currentUser?.id);
+  const { onlineUsers, sendMessage, socket } = useOnlineUsersStatus(
+    currentUser?.id
+  );
 
   return (
     <Routes>
@@ -23,7 +25,7 @@ export const App = () => {
         path="/"
         element={
           <ProtectedRoute currentUser={currentUser}>
-            <Layout />
+            <Layout sendMessage={sendMessage} socket={socket} />
           </ProtectedRoute>
         }
       >

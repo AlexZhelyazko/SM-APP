@@ -1,28 +1,31 @@
-import './navbar.scss';
-import axios from 'axios';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { Link, useNavigate } from 'react-router-dom';
-import { DarkModeContext } from '../../context/darkModeContext';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/authContext';
+import "./navbar.scss";
+import axios from "axios";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { Link, useNavigate } from "react-router-dom";
+import { DarkModeContext } from "../../context/darkModeContext";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
-const Navbar = () => {
+const Navbar = ({ sendMessage, socket }) => {
   const { darkMode, toggle } = useContext(DarkModeContext);
   const { currentUser, logout } = useContext(AuthContext);
+  let userId = currentUser.id;
 
   const navigate = useNavigate();
 
-  const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
     try {
+      sendMessage(JSON.stringify({ type: "user-logout", userId }));
       await logout();
-      navigate('/login');
-    } catch (error: any) {
+      socket.close();
+      navigate("/login");
+    } catch (error) {
       console.log(error.response.data);
     }
   };
@@ -30,7 +33,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="left">
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to="/" style={{ textDecoration: "none" }}>
           <span>SN</span>
         </Link>
         <HomeOutlinedIcon />
@@ -54,8 +57,8 @@ const Navbar = () => {
           <img
             src={
               currentUser.profilePic
-                ? '/upload/' + currentUser.profilePic
-                : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                ? "/upload/" + currentUser.profilePic
+                : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
             }
             alt="profilePic"
           />
