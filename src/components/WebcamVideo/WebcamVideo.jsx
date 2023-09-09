@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 
 export const WebcamVideo = () => {
@@ -6,10 +6,12 @@ export const WebcamVideo = () => {
   const mediaRecorderRef = useRef(null);
   const [isRecording, setIsRecording] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
+  const [mediaStream, setMediaStream] = useState(null);
 
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setMediaStream(stream); // Сохраняем ссылку на MediaStream
       webcamRef.current.srcObject = stream;
       mediaRecorderRef.current = new MediaRecorder(stream, {
         mimeType: "video/webm",
@@ -25,13 +27,22 @@ export const WebcamVideo = () => {
     }
   };
 
+  const stopRecording = () => {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach((track) => track.stop()); // Отключаем все треки MediaStream
+    }
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+    }
+    setIsRecording(false);
+  };
+
   const handleStartRecording = () => {
     startRecording();
   };
 
   const handleStopRecording = () => {
-    mediaRecorderRef.current.stop();
-    setIsRecording(false);
+    stopRecording();
   };
 
   const handleDataAvailable = (e) => {
@@ -51,6 +62,12 @@ export const WebcamVideo = () => {
     window.URL.revokeObjectURL(url);
     setRecordedChunks([]);
   };
+
+  useEffect(() => {
+    return () => {
+      stopRecording(); // Отключаем камеру при размонтировании компонента
+    };
+  }, []);
 
   return (
     <div>

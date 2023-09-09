@@ -1,13 +1,17 @@
-import './login.scss';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { AuthContext } from '../../context/authContext';
+import "./login.scss";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/authContext";
 
-export const Login = () => {
-  const { login } = useContext(AuthContext);
+interface LoginProps {
+  sendMessage: any;
+}
+
+export const Login: React.FC<LoginProps> = ({ sendMessage }) => {
+  const { login, currentUser } = useContext(AuthContext);
   const [inputs, setInputs] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
   const [err, setErr] = useState(null);
 
@@ -21,7 +25,12 @@ export const Login = () => {
     e.preventDefault();
     try {
       await login(inputs);
-      navigate('/');
+      navigate("/");
+      // if (currentUser?.id && sendMessage) {
+      //   sendMessage(
+      //     JSON.stringify({ type: "user-id", userId: currentUser?.id })
+      //   );
+      // }
     } catch (error: any) {
       setErr(error.response.data);
     }
@@ -41,8 +50,18 @@ export const Login = () => {
         <div className="right">
           <h1>Login</h1>
           <form>
-            <input type="text" placeholder="Username" name="username" onChange={handleChange} />
-            <input type="password" placeholder="password" name="password" onChange={handleChange} />
+            <input
+              type="text"
+              placeholder="Username"
+              name="username"
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              placeholder="password"
+              name="password"
+              onChange={handleChange}
+            />
             {err && err}
             <button onClick={(e) => handleLogin(e)}>Login</button>
           </form>

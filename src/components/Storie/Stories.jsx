@@ -1,33 +1,26 @@
-import { useContext } from 'react';
-import './stories.scss';
-import { AuthContext } from '../../context/authContext.js';
+import { useContext, useEffect, useState } from "react";
+import "./stories.scss";
+import { AuthContext } from "../../context/authContext.js";
+import { useQuery } from "react-query";
+import { makeRequest } from "../../axios";
 
 const Stories = ({ setWebCamVisible }) => {
   const { currentUser } = useContext(AuthContext);
+  const [stories, setStories] = useState();
+  const { isLoading, error, data } = useQuery(["stories"], () =>
+    makeRequest.get("/stories?userId=" + currentUser.id).then((res) => {
+      setStories(res.data);
+    })
+  );
 
-  //TEMPORARY
-  const stories = [
-    {
-      id: 1,
-      name: 'John Doe',
-      img: 'https://images.pexels.com/photos/13916254/pexels-photo-13916254.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load',
-    },
-    {
-      id: 2,
-      name: 'John Doe',
-      img: 'https://images.pexels.com/photos/13916254/pexels-photo-13916254.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load',
-    },
-    {
-      id: 3,
-      name: 'John Doe',
-      img: 'https://images.pexels.com/photos/13916254/pexels-photo-13916254.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load',
-    },
-    {
-      id: 4,
-      name: 'John Doe',
-      img: 'https://images.pexels.com/photos/13916254/pexels-photo-13916254.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load',
-    },
-  ];
+  useEffect(() => {
+    return () => {
+      // Очищаем URL объектов, чтобы предотвратить утечки памяти
+      stories?.forEach((story) => URL.revokeObjectURL(story.mediaBlob.data));
+    };
+  }, [stories]);
+
+  console.log(stories);
 
   return (
     <div className="stories">
@@ -36,12 +29,26 @@ const Stories = ({ setWebCamVisible }) => {
         <span>{currentUser.name}</span>
         <button onClick={() => setWebCamVisible(true)}>+</button>
       </div>
-      {stories.map((story) => (
-        <div className="story" key={story.id}>
-          <img src={story.img} alt="" />
-          <span>{story.name}</span>
-        </div>
-      ))}
+      {stories?.map((story) => {
+        // Преобразование Buffer в Uint8Array
+        const uint8Array = new Uint8Array(story.mediaBlob.data);
+        console.log(uint8Array);
+
+        // Создание Blob из Uint8Array
+        const blob = new Blob([uint8Array], { type: "video/webm" });
+        console.log(blob);
+
+        return (
+          <div className="story" key={story.id}>
+            <video
+              src={URL.createObjectURL(blob)}
+              type="video/webm"
+              controls={true}
+            ></video>
+            <span>{story.name}</span>
+          </div>
+        );
+      })}
     </div>
   );
 };

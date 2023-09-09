@@ -19,7 +19,7 @@ export const App = () => {
 
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Login />} sendMessage={sendMessage} />
       <Route path="/register" element={<Register />} />
       <Route
         path="/"
