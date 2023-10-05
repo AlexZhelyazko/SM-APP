@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import Webcam from "react-webcam";
+import { makeRequest } from "../../axios";
 
 export const WebcamVideo = () => {
   const webcamRef = useRef(null);
@@ -7,6 +9,44 @@ export const WebcamVideo = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [mediaStream, setMediaStream] = useState(null);
+  const [video, setVideo] = useState(null);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    async (videoFile) => {
+      console.log(videoFile);
+      return makeRequest.post("/stories", { file: videoFile });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["stories"]);
+      },
+    }
+  );
+  const upload = async (e) => {
+    try {
+      const blob = new Blob(recordedChunks, { type: "video/webm" });
+      // const formData = new FormData();
+      // formData.append("file", blob, "recorded-video.webm");
+      const res = await makeRequest.post("/upload", blob);
+      console.log(res);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleUpload = async () => {
+    try {
+      let videoUrl = await upload();
+      mutation.mutate(video);
+
+      setVideo(null);
+      setRecordedChunks([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const startRecording = async () => {
     try {
@@ -94,6 +134,8 @@ export const WebcamVideo = () => {
             ))}
           </video>
           <button onClick={handleDownload}>Download</button>
+          <button onClick={handleUpload}>Upload</button>{" "}
+          {/* Добавляем кнопку загрузки видео */}
         </div>
       )}
     </div>

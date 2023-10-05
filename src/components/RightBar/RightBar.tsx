@@ -11,11 +11,12 @@ const RightBar = () => {
     ["relationshipSuggestions"],
     () =>
       makeRequest
-        .get("/relationships/suggestions?followedUserId=" + currentUser.id)
+        .get("/relationships/suggestions?followerUserId=" + currentUser.id)
         .then((res) => {
           return res.data;
         })
   );
+  console.log(relationshipData);
   return (
     <div className="rightBar">
       <div className="container">
