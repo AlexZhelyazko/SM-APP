@@ -52,9 +52,35 @@
       position: relative;
       left: 65%;
       background-color: rgb(255, 153, 0);
+      border-radius: 10px 0 10px 0;
     }
     .message_receiver {
+      border-radius: 0 10px 10px 10px;
       background-color: blueviolet;
+    }
+  }
+  .form {
+    display: flex;
+    justify-content: space-between;
+    .chat_input {
+      resize: none;
+      padding-left: 10px;
+      padding-top: 6px;
+      font-size: 17px;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+      overflow: scroll;
+      &:focus {
+        outline: none !important;
+      }
+    }
+    .chat_btn {
+      width: 58px;
+      background-color: white;
+      height: 40px;
+      align-self: center;
     }
   }
 }

@@ -53,8 +53,16 @@ const Chat = () => {
         </div>
       </div>
       <div className="form">
-        <input type="text" placeholder="Type..." />
-        <button>Send</button>
+        <textarea
+          className="chat_input"
+          name="chat_input"
+          id=""
+          cols="30"
+          rows="3"
+          placeholder="Type..."
+        ></textarea>
+        {/* <input className="chat_input" type="text" placeholder="Type..." /> */}
+        <button className="chat_btn">Send</button>
       </div>
     </div>
   );
