@@ -4,14 +4,14 @@ import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
-import { NavLink, Navigate, redirect } from "react-router-dom";
+import { NavLink, Navigate, redirect, useNavigate } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader";
 import useDebounce from "../../hooks/useDebounce";
 
 export const Friends = ({ onlineUsers }) => {
   const [inputValue, setInputValue] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
-
+  const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
 
   const { isLoading, data: followings } = useQuery(["relationship"], () =>
@@ -33,16 +33,21 @@ export const Friends = ({ onlineUsers }) => {
 
       if (response.data.dialogExists) {
         // Диалог существует, переходим к нему
-        return redirect(`/dialog/${response.data.dialog_id}`);
+        console.log(response.data);
+        navigate(`/dialogs/${response.data.dialogId}`);
+        //return redirect(`/dialog/${response.data.dialog_id}`);
         //history.push(`/dialog/${response.data.dialogId}`);
       } else {
         // Диалог не существует, создаем новый
+        console.log("NEW");
         const createDialogResponse = await makeRequest.post("/dialogs/create", {
           user1_id: currentUser.id,
           user2_id: userId,
         });
         // Обработка успешного создания диалога
-        return redirect(`/dialog/${createDialogResponse.data.dialog_id}`);
+        console.log(createDialogResponse.data);
+        navigate(`/dialogs/${createDialogResponse.data.dialog_id}`);
+        //return redirect(`/dialog/${createDialogResponse.data.dialog_id}`);
         //history.push(`/dialog/${createDialogResponse.data.dialogId}`);
       }
     } catch (error) {
