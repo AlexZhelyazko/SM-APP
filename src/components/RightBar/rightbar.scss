@@ -5,14 +5,14 @@
     flex: 3;
     position: sticky;
     top: 70px;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 71px);
     overflow: scroll;
     background-color: themed("bgSoft");
 
-    @include mobile{
+    @include mobile {
       display: none;
     }
-    @include tablet{
+    @include tablet {
       display: none;
     }
 

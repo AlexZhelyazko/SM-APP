@@ -4,8 +4,11 @@
   @include themify($themes) {
     background-color: themed("bgSoft");
     padding: 20px 70px;
-    min-height: calc(100vh - 70px);
     color: themed("textColor");
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 111px);
+    justify-content: space-between;
   }
   & > div:not(:first-child) {
     margin-top: 20px;

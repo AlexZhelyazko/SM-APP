@@ -5,16 +5,16 @@
     flex: 2;
     position: sticky;
     top: 70px;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 71px);
     overflow: scroll;
     background-color: themed("bg");
     color: themed("textColor") !important;
 
-    a{
+    a {
       color: themed("textColor") !important;
     }
 
-    @include mobile{
+    @include mobile {
       display: none;
     }
 
@@ -46,7 +46,7 @@
           align-items: center;
           gap: 10px;
 
-          a{
+          a {
             color: themed("textColor") !important;
             display: contents;
           }
@@ -72,7 +72,8 @@
             width: 30px;
           }
 
-          span,a {
+          span,
+          a {
             font-size: 14px;
           }
         }

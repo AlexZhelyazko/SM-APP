@@ -13,7 +13,7 @@ export const Layout = ({ sendMessage, socket }) => {
       style={{ display: "flex", flexDirection: "column" }}
     >
       <Navbar sendMessage={sendMessage} socket={socket} />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", height: `calc(100vh - 71px)` }}>
         <LeftBar />
         <div style={{ flex: "6" }}>
           <Outlet />
