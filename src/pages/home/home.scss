@@ -1,17 +1,21 @@
 @import "../../style.scss";
 
-.home{
+.home {
   @include themify($themes) {
     padding: 20px 70px;
     background-color: themed("bgSoft");
-    min-height: 100vh;
+    height: calc(100% - 40px);
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
 
     @include mobile {
       padding: 10px;
     }
 
-    @include tablet{
+    @include tablet {
       padding: 20px;
     }
   }
- }
+}

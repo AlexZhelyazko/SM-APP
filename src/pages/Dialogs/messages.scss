@@ -4,6 +4,10 @@
   @include themify($themes) {
     background-color: themed("bgSoft");
     padding: 20px 70px;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 111px);
+    overflow-y: hidden;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
   }
 }

@@ -5,7 +5,7 @@
     flex: 3;
     position: sticky;
     top: 70px;
-    height: calc(100vh - 71px);
+    height: calc(100vh - 71px) !important;
     overflow: scroll;
     background-color: themed("bgSoft");
 

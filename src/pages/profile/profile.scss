@@ -1,6 +1,11 @@
 @import "../../style.scss";
 
 .profile {
+  height: 100%;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
   @include themify($themes) {
     background-color: themed("bgSoft");
 
