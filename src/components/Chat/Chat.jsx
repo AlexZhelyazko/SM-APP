@@ -18,7 +18,37 @@ const Chat = () => {
           <span className="message_date">date</span>
         </div>
         <div className="message_receiver">
+          <span className="message_text">
+            HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello
+          </span>
+          <span className="message_date">date</span>
+        </div>
+        <div className="message_recepient">
           <span className="message_text">Hello</span>
+          <span className="message_date">date</span>
+        </div>
+        <div className="message_recepient">
+          <span className="message_text">Hello</span>
+          <span className="message_date">date</span>
+        </div>
+        <div className="message_recepient">
+          <span className="message_text">Hello</span>
+          <span className="message_date">date</span>
+        </div>
+        <div className="message_receiver">
+          <span className="message_text">
+            HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello
+          </span>
+          <span className="message_date">date</span>
+        </div>
+        <div className="message_recepient">
+          <span className="message_text">Hello</span>
+          <span className="message_date">date</span>
+        </div>
+        <div className="message_receiver">
+          <span className="message_text">
+            HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello
+          </span>
           <span className="message_date">date</span>
         </div>
       </div>
