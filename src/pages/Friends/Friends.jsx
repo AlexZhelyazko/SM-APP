@@ -1,15 +1,16 @@
 import "./Friends.scss";
 import { useContext, useState } from "react";
+
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
-import { NavLink } from "react-router-dom";
-import { Loader } from "../Loader/Loader";
+import { NavLink, Navigate, redirect } from "react-router-dom";
+import { Loader } from "../../components/Loader/Loader";
 import useDebounce from "../../hooks/useDebounce";
 
 export const Friends = ({ onlineUsers }) => {
   const [inputValue, setInputValue] = useState("");
-  const debouncedValue = useDebounce(inputValue, 1000); // Используйте debounce для задержки
+  const debouncedValue = useDebounce(inputValue, 500);
 
   const { currentUser } = useContext(AuthContext);
 
@@ -19,10 +20,36 @@ export const Friends = ({ onlineUsers }) => {
     })
   );
 
-  // Фильтруем друзей на клиентской стороне
-  const filteredFollowings = followings.filter((el) =>
-    el.name.toLowerCase().includes(debouncedValue.toLowerCase())
+  const filteredFollowings = followings?.filter((el) =>
+    el?.name?.toLowerCase().includes(debouncedValue.toLowerCase())
   );
+
+  const handleStartChat = async (userId) => {
+    try {
+      // Отправляем запрос на сервер, чтобы проверить существующий диалог
+      const response = await makeRequest.get(
+        `/dialogs/check?user1_id=${currentUser.id}&user2_id=${userId}`
+      );
+
+      if (response.data.dialogExists) {
+        // Диалог существует, переходим к нему
+        return redirect(`/dialog/${response.data.dialog_id}`);
+        //history.push(`/dialog/${response.data.dialogId}`);
+      } else {
+        // Диалог не существует, создаем новый
+        const createDialogResponse = await makeRequest.post("/dialogs/create", {
+          user1_id: currentUser.id,
+          user2_id: userId,
+        });
+        // Обработка успешного создания диалога
+        return redirect(`/dialog/${createDialogResponse.data.dialog_id}`);
+        //history.push(`/dialog/${createDialogResponse.data.dialogId}`);
+      }
+    } catch (error) {
+      // Обработка ошибок
+      console.error("Ошибка при обработке диалога:", error);
+    }
+  };
 
   if (isLoading) return <Loader />;
   return (
@@ -58,6 +85,12 @@ export const Friends = ({ onlineUsers }) => {
 
               <div className="followingInfo">
                 <div>{el.name}</div>
+                <button
+                  onClick={() => handleStartChat(el.followedUserId)}
+                  className="followingInfo_textBtn"
+                >
+                  Text
+                </button>
               </div>
             </div>
           );

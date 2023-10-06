@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Friends } from "./components/Friends/Friends";
+import { Friends } from "./pages/Friends/Friends";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import { AuthContext } from "./context/authContext";
 import { Layout } from "./layout/Layout";
@@ -10,6 +10,8 @@ import Profile from "./pages/profile/Profile";
 import { Register } from "./pages/register/Register";
 import "./style.scss";
 import useOnlineUsersStatus from "./hooks/useOnlineStatus";
+import Messages from "./pages/Dialogs/Dialogs";
+import Chat from "./components/Chat/Chat";
 
 export const App = () => {
   const { currentUser } = useContext(AuthContext);
@@ -42,6 +44,22 @@ export const App = () => {
           element={
             <ProtectedRoute currentUser={currentUser}>
               <Profile onlineUsers={onlineUsers} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dialogs"
+          element={
+            <ProtectedRoute currentUser={currentUser}>
+              <Messages />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dialogs/:dialogId"
+          element={
+            <ProtectedRoute currentUser={currentUser}>
+              <Chat />
             </ProtectedRoute>
           }
         />

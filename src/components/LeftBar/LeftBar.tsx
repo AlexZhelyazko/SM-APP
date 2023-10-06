@@ -35,8 +35,8 @@ const LeftBar = () => {
             <NavLink to="/followings">Followings</NavLink>
           </div>
           <div className="item">
-            <img src={Groups} alt="" />
-            <span>Groups (In Dev)</span>
+            <img src={Friends} alt="" />
+            <span>Followers (in dev)</span>
           </div>
         </div>
         <hr />
@@ -52,7 +52,7 @@ const LeftBar = () => {
           </div>
           <div className="item">
             <img src={Messages} alt="" />
-            <span>Messages (In Dev)</span>
+            <NavLink to="/dialogs">Dialogs </NavLink>
           </div>
         </div>
         <hr />
