@@ -1,0 +1,28 @@
+@import "../../style.scss";
+
+.chat {
+  @include themify($themes) {
+    background-color: themed("bgSoft");
+    padding: 20px 70px;
+    min-height: calc(100vh - 70px);
+    color: themed("textColor");
+  }
+  & > div:not(:first-child) {
+    margin-top: 20px;
+  }
+  .header {
+    display: flex;
+    .chat__header-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 35px;
+      background-color: greenyellow;
+    }
+    .companion-info {
+      position: relative;
+      left: 40%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

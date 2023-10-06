@@ -1,6 +1,6 @@
 @import "../../style.scss";
 
-.messages {
+.dialogs {
   @include themify($themes) {
     background-color: themed("bgSoft");
     padding: 20px 70px;
