@@ -7,16 +7,15 @@ import OnlineFriends from "../OnlineFriends/OnlineFriends";
 
 const RightBar = () => {
   const { currentUser } = useContext(AuthContext);
-  const { isLoading: relationshipLoading, data: relationshipData } = useQuery(
-    ["relationshipSuggestions"],
-    () =>
-      makeRequest
-        .get("/relationships/suggestions?followerUserId=" + currentUser.id)
-        .then((res) => {
-          return res.data;
-        })
-  );
-  console.log(relationshipData);
+  // const { isLoading: relationshipLoading, data: relationshipData } = useQuery(
+  //   ["relationshipSuggestions"],
+  //   () =>
+  //     makeRequest
+  //       .get("/relationships/suggestions?followerUserId=" + currentUser.id)
+  //       .then((res) => {
+  //         return res.data;
+  //       })
+  // );
   return (
     <div className="rightBar">
       <div className="container">

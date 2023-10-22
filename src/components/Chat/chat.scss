@@ -55,8 +55,17 @@
       border-radius: 10px 0 10px 0;
     }
     .message_receiver {
+      position: relative;
       border-radius: 0 10px 10px 10px;
       background-color: blueviolet;
+    }
+    .message_text {
+    }
+    .message_time {
+      position: absolute;
+      bottom: 5px;
+      right: 8px;
+      font-size: 10px;
     }
   }
   .form {
