@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import "./chat.scss";
 import { useQuery } from "react-query";
 import useSendMessage from "../../hooks/useSendMessages";
@@ -13,16 +13,66 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [sender_id, setSender_id] = useState(null);
   const [recepient_id, setRecepient_id] = useState(null);
+  const [lastVisibleMessageDate, setLastVisibleMessageDate] = useState(null);
+  const chatContainerRef = useRef(null);
   const { sendMessage, messages } = useSendMessage(
     currentUser.id,
     recepient_id,
     dialogId
   );
   console.log(messages);
+
+  useEffect(() => {
+    scrollToBottomSmoothly();
+  }, [messages]); // Вызываем функцию прокрутки при обновлении сообщений
+
+  useEffect(() => {
+    const container = chatContainerRef.current;
+
+    const handleScroll = () => {
+      const messages = container.querySelectorAll(".message");
+      let lastVisibleDate = null;
+
+      messages.forEach((message) => {
+        const rect = message.getBoundingClientRect();
+
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+          lastVisibleDate = message.dataset.timestamp;
+        }
+      });
+
+      if (lastVisibleDate) {
+        const messageDate = new Date(lastVisibleDate);
+        const formattedDate = formatDate(messageDate);
+        setLastVisibleMessageDate(formattedDate);
+      }
+    };
+
+    container.addEventListener("scroll", handleScroll);
+
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+    };
+  }, [messages]);
+  const formatDate = (inputDate) => {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return inputDate.toLocaleDateString("en-US", options);
+  };
+
+  const scrollToBottomSmoothly = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
   const handleSendMessage = () => {
     if (message.trim() !== "") {
       sendMessage(message);
       setMessage("");
+      scrollToBottomSmoothly();
     }
   };
 
@@ -56,15 +106,17 @@ const Chat = () => {
           <span>Status</span>
         </div>
       </div>
-      <div className="messages">
+      <div className="messages" ref={chatContainerRef}>
+        <span className="messages_date">{lastVisibleMessageDate}</span>
         {messages.map((msg) => {
           return (
             <div
               className={
                 currentUser.id === msg.sender_id
-                  ? "message_recepient"
-                  : "message_receiver"
+                  ? "message_recepient message"
+                  : "message_receiver message"
               }
+              data-timestamp={msg.timestamp}
             >
               <span className="message_text">{msg.message_text}</span>
               <span className="message_time">

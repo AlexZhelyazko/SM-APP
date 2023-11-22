@@ -13,7 +13,16 @@ const Dialogs = () => {
       {dialogs.map((dialog) => {
         return (
           <div>
-            {dialog.other_username} <span>{dialog.message_text}</span>
+            {dialog.other_username} <span>{dialog.message_text}</span>{" "}
+            <span className="message_time">
+              {new Date(dialog.last_message_time)
+                .toLocaleTimeString({
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                })
+                .slice(0, 5)}
+            </span>
           </div>
         );
       })}

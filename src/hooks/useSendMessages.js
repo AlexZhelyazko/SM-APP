@@ -5,15 +5,7 @@ const useSendMessage = (senderId, recipientId, dialogId) => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [dialogs, setDialogs] = useState([]);
-  // useEffect(() => {
-  //   async function init() {
-  //     const response = await makeRequest.get(
-  //       `/dialogs/getDialogs?user_id=${senderId}`
-  //     );
-  //     setDialogs(response.data);
-  //   }
-  //   init();
-  // }, []);
+
   useEffect(() => {
     if (!dialogId && !recipientId && senderId) {
       async function init() {
@@ -60,11 +52,9 @@ const useSendMessage = (senderId, recipientId, dialogId) => {
     newSocket.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        console.log(data);
         if (!dialogId && !recipientId && senderId) {
           setDialogs((prevDialogs) =>
             prevDialogs.map((dialog) => {
-              console.log(dialog.dialog_id === +data.dialogId);
               if (dialog.dialog_id === +data.dialogId) {
                 return {
                   dialog_id: data.dialogId,
@@ -80,7 +70,6 @@ const useSendMessage = (senderId, recipientId, dialogId) => {
         } else {
           setMessages((prevMessages) => [...prevMessages, data]);
         }
-        // setDialogs((prevDialogs) => [...prevDialogs, data])
       } catch (error) {
         console.error("Error handling WebSocket message:", error);
       }
