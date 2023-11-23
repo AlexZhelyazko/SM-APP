@@ -59,7 +59,7 @@ export const App = () => {
           path="/dialogs/:dialogId"
           element={
             <ProtectedRoute currentUser={currentUser}>
-              <Chat />
+              <Chat onlineUsers={onlineUsers} />
             </ProtectedRoute>
           }
         />

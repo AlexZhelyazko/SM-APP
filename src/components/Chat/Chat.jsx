@@ -6,13 +6,14 @@ import { useLocation } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 
-const Chat = () => {
+const Chat = ({ onlineUsers }) => {
   const location = useLocation();
   let dialogId = location.pathname.match(/\d+/)[0];
   const { currentUser } = useContext(AuthContext);
   const [message, setMessage] = useState("");
   const [sender_id, setSender_id] = useState(null);
   const [recepient_id, setRecepient_id] = useState(null);
+  const [recepientInfo, setRecepientInfo] = useState(null);
   const [lastVisibleMessageDate, setLastVisibleMessageDate] = useState(null);
   const chatContainerRef = useRef(null);
   const { sendMessage, messages } = useSendMessage(
@@ -92,18 +93,48 @@ const Chat = () => {
       console.error("Произошла ошибка при выполнении запроса:", error);
     }
   };
+  const getUserInfo = async () => {
+    try {
+      const response = await makeRequest.get(`/users/find/${+recepient_id}`);
+      setRecepientInfo(response.data);
+    } catch (error) {
+      console.error("Произошла ошибка при выполнении запроса:", error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
   }, [dialogId]);
 
+  useEffect(() => {
+    if (recepient_id) {
+      getUserInfo();
+    }
+  }, [recepient_id]);
+
+  console.log(recepientInfo);
+  console.log(onlineUsers);
   return (
     <div className="chat">
       <div className="header">
-        <div className="chat__header-image"></div>
+        <div className="chat__header-image">
+          <img
+            src={
+              recepientInfo?.profilePic
+                ? "/upload/" + recepientInfo?.profilePic
+                : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+            }
+            alt=""
+            srcset=""
+          />
+        </div>
         <div className="companion-info">
-          <span>Name</span>
-          <span>Status</span>
+          <span>{recepientInfo?.name}</span>
+          <span>
+            {recepientInfo && onlineUsers.includes(recepientInfo.id)
+              ? "Online"
+              : "Offline"}
+          </span>
         </div>
       </div>
       <div className="messages" ref={chatContainerRef}>
@@ -141,7 +172,7 @@ const Chat = () => {
           id=""
           cols="30"
           rows="3"
-          placeholder="Type..."
+          placeholder="Enter your message..."
         ></textarea>
         <button className="chat_btn" onClick={handleSendMessage}>
           Send
