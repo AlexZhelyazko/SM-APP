@@ -2,13 +2,14 @@ import React, { useEffect, useContext, useState, useRef } from "react";
 import "./chat.scss";
 import { useQuery } from "react-query";
 import useSendMessage from "../../hooks/useSendMessages";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 
 const Chat = ({ onlineUsers }) => {
   const location = useLocation();
   let dialogId = location.pathname.match(/\d+/)[0];
+  const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
   const [message, setMessage] = useState("");
   const [sender_id, setSender_id] = useState(null);
@@ -16,13 +17,16 @@ const Chat = ({ onlineUsers }) => {
   const [recepientInfo, setRecepientInfo] = useState(null);
   const [lastVisibleMessageDate, setLastVisibleMessageDate] = useState(null);
   const chatContainerRef = useRef(null);
-  const { sendMessage, messages } = useSendMessage(
+  const { sendMessage, messages, error } = useSendMessage(
     currentUser.id,
     recepient_id,
     dialogId
   );
   console.log(messages);
-
+  console.log(error);
+  if (error) {
+    return navigate("/dialogs");
+  }
   useEffect(() => {
     scrollToBottomSmoothly();
   }, [messages]); // Вызываем функцию прокрутки при обновлении сообщений
@@ -82,6 +86,12 @@ const Chat = ({ onlineUsers }) => {
       const response = await makeRequest.get(
         `/dialogs/getIds?dialog_id=${dialogId}`
       );
+      // if (
+      //   currentUser.id !== response.data.user1_id &&
+      //   currentUser.id !== response.data.user2_id
+      // ) {
+      //   navigate(`/dialogs`);
+      // }
       if (response.data.user1_id === currentUser.id) {
         setSender_id(response.data.user1_id);
         setRecepient_id(response.data.user2_id);

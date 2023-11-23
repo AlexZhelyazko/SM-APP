@@ -5,6 +5,7 @@ const useSendMessage = (senderId, recipientId, dialogId) => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [dialogs, setDialogs] = useState([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (!dialogId && !recipientId && senderId) {
@@ -16,13 +17,26 @@ const useSendMessage = (senderId, recipientId, dialogId) => {
       }
       init();
     } else {
-      async function init() {
-        const response = await makeRequest.get(
-          `/dialogs/getMessages?dialog_id=${dialogId}`
-        );
-        setMessages(response.data);
-      }
-      init();
+      const checkUserInDialog = async () => {
+        try {
+          const response = await makeRequest.get(
+            `/dialogs/checkUser?user_id=${senderId}&dialog_id=${dialogId}`
+          );
+
+          if (response.data.userExists) {
+            const messagesResponse = await makeRequest.get(
+              `/dialogs/getMessages?dialog_id=${dialogId}`
+            );
+            setMessages(messagesResponse.data);
+          } else {
+            setError(true);
+          }
+        } catch (error) {
+          console.error("Произошла ошибка при выполнении запроса:", error);
+          setError(true);
+        }
+      };
+      checkUserInDialog();
     }
   }, [dialogId]);
 
@@ -86,7 +100,7 @@ const useSendMessage = (senderId, recipientId, dialogId) => {
     };
   }, []);
 
-  return { messages, sendMessage, dialogs };
+  return { messages, sendMessage, dialogs, error };
 };
 
 export default useSendMessage;

@@ -28,31 +28,36 @@ const Dialogs = () => {
       {dialogs.map((dialog) => {
         return (
           <div className="dialog_wrapper">
-            <NavLink to={`/dialogs/${dialog.dialog_id}`} className="dialog">
-              <div className="user_img">
-                <img
-                  src={
-                    dialogs.profilePic
-                      ? "/upload/" + dialogs.profilePic
-                      : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-                  }
-                  alt=""
-                  srcset=""
-                />
-              </div>
-              <div className="username"> {dialog.other_username}</div>
-              <div className="last_message">{dialog.message_text}</div>{" "}
-              <div className="message_time">
-                {new Date(dialog.last_message_time)
-                  .toLocaleTimeString({
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                  })
-                  .slice(0, 5)}
-              </div>
-            </NavLink>
-            <div>DELETE</div>
+            {dialog.last_message_id && (
+              <>
+                {" "}
+                <NavLink to={`/dialogs/${dialog.dialog_id}`} className="dialog">
+                  <div className="user_img">
+                    <img
+                      src={
+                        dialogs.profilePic
+                          ? "/upload/" + dialogs.profilePic
+                          : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                      }
+                      alt=""
+                      srcset=""
+                    />
+                  </div>
+                  <div className="username"> {dialog.other_username}</div>
+                  <div className="last_message">{dialog.message_text}</div>{" "}
+                  <div className="message_time">
+                    {new Date(dialog.last_message_time)
+                      .toLocaleTimeString({
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      })
+                      .slice(0, 5)}
+                  </div>
+                </NavLink>
+                <div>DELETE</div>
+              </>
+            )}
           </div>
         );
       })}
