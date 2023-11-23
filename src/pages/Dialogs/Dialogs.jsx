@@ -4,10 +4,14 @@ import { AuthContext } from "../../context/authContext";
 import useDialogs from "../../hooks/useDialogs";
 import useSendMessage from "../../hooks/useSendMessages";
 import { NavLink } from "react-router-dom";
+import { makeRequest } from "../../axios";
 
 const Dialogs = () => {
   const { currentUser } = useContext(AuthContext);
   const { dialogs } = useSendMessage(currentUser.id);
+  const handleDelete = async (dialog_id) => {
+    await makeRequest.delete(`/dialogs/deleteDialog?dialog_id=${dialog_id}`);
+  };
 
   // const getUserInfo = async () => {
   //   try {
@@ -55,7 +59,7 @@ const Dialogs = () => {
                       .slice(0, 5)}
                   </div>
                 </NavLink>
-                <div>DELETE</div>
+                <div onClick={() => handleDelete(dialog.dialog_id)}>DELETE</div>
               </>
             )}
           </div>
