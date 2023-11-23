@@ -1,6 +1,9 @@
 @import "../../style.scss";
 
 .dialogs {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   @include themify($themes) {
     background-color: themed("bgSoft");
     color: themed("textColor");
@@ -11,32 +14,43 @@
       width: 0;
     }
   }
-  .dialog {
+  .dialog_wrapper {
+    width: 100%;
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: 1fr 2fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    .user_img {
-      grid-area: 1 / 1 / 3 / 2;
-      width: 60px;
-      height: 60px;
-      margin: 0 auto;
-      img {
-        width: 100%;
-        height: auto;
+    grid-template-columns: 3fr 0.5fr;
+    .dialog {
+      @include themify($themes) {
+        color: themed("textColor");
       }
-    }
-    .username {
-      font-size: 20px;
-      grid-area: 1 / 2 / 2 / 3;
-    }
-    .last_message {
-      font-size: 16px;
-      grid-area: 2 / 2 / 3 / 3;
-    }
-    .message_time {
-      grid-area: 1 / 3 / 3 / 4;
+      margin-bottom: 10px;
+      text-decoration: none;
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr;
+      grid-template-rows: 1fr 2fr;
+      grid-column-gap: 0px;
+      grid-row-gap: 0px;
+      .user_img {
+        grid-area: 1 / 1 / 3 / 2;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+      .username {
+        font-size: 20px;
+        grid-area: 1 / 2 / 2 / 3;
+      }
+      .last_message {
+        font-size: 16px;
+        grid-area: 2 / 2 / 3 / 3;
+      }
+      .message_time {
+        text-align: center;
+        grid-area: 1 / 3 / 3 / 4;
+      }
     }
   }
 }
