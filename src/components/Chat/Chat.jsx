@@ -5,13 +5,13 @@ import useSendMessage from "../../hooks/useSendMessages";
 import { useLocation, useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
+import ChatForm from "../ChatForm/ChatForm";
 
 const Chat = ({ onlineUsers }) => {
   const location = useLocation();
   let dialogId = location.pathname.match(/\d+/)[0];
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
-  const [message, setMessage] = useState("");
   const [sender_id, setSender_id] = useState(null);
   const [recepient_id, setRecepient_id] = useState(null);
   const [recepientInfo, setRecepientInfo] = useState(null);
@@ -22,7 +22,6 @@ const Chat = ({ onlineUsers }) => {
     recepient_id,
     dialogId
   );
-  console.log(messages);
   console.log(error);
   if (error) {
     return navigate("/dialogs");
@@ -73,25 +72,11 @@ const Chat = ({ onlineUsers }) => {
     }
   };
 
-  const handleSendMessage = () => {
-    if (message.trim() !== "") {
-      sendMessage(message);
-      setMessage("");
-      scrollToBottomSmoothly();
-    }
-  };
-
   const fetchData = async () => {
     try {
       const response = await makeRequest.get(
         `/dialogs/getIds?dialog_id=${dialogId}`
       );
-      // if (
-      //   currentUser.id !== response.data.user1_id &&
-      //   currentUser.id !== response.data.user2_id
-      // ) {
-      //   navigate(`/dialogs`);
-      // }
       if (response.data.user1_id === currentUser.id) {
         setSender_id(response.data.user1_id);
         setRecepient_id(response.data.user2_id);
@@ -122,8 +107,6 @@ const Chat = ({ onlineUsers }) => {
     }
   }, [recepient_id]);
 
-  console.log(recepientInfo);
-  console.log(onlineUsers);
   return (
     <div className="chat">
       <div className="header">
@@ -173,21 +156,10 @@ const Chat = ({ onlineUsers }) => {
           );
         })}
       </div>
-      <div className="form">
-        <textarea
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-          className="chat_input"
-          name="chat_input"
-          id=""
-          cols="30"
-          rows="3"
-          placeholder="Enter your message..."
-        ></textarea>
-        <button className="chat_btn" onClick={handleSendMessage}>
-          Send
-        </button>
-      </div>
+      <ChatForm
+        scrollToBottomSmoothly={scrollToBottomSmoothly}
+        sendMessage={sendMessage}
+      />
     </div>
   );
 };

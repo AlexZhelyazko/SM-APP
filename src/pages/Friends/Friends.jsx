@@ -33,19 +33,16 @@ export const Friends = ({ onlineUsers }) => {
 
       if (response.data.dialogExists) {
         // Диалог существует, переходим к нему
-        console.log(response.data);
         navigate(`/dialogs/${response.data.dialogId}`);
         //return redirect(`/dialog/${response.data.dialog_id}`);
         //history.push(`/dialog/${response.data.dialogId}`);
       } else {
         // Диалог не существует, создаем новый
-        console.log("NEW");
         const createDialogResponse = await makeRequest.post("/dialogs/create", {
           user1_id: currentUser.id,
           user2_id: userId,
         });
         // Обработка успешного создания диалога
-        console.log(createDialogResponse.data);
         navigate(`/dialogs/${createDialogResponse.data.dialog_id}`);
         //return redirect(`/dialog/${createDialogResponse.data.dialog_id}`);
         //history.push(`/dialog/${createDialogResponse.data.dialogId}`);

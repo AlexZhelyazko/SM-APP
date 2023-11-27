@@ -13,20 +13,6 @@ const Dialogs = () => {
     await makeRequest.delete(`/dialogs/deleteDialog?dialog_id=${dialog_id}`);
   };
 
-  // const getUserInfo = async () => {
-  //   try {
-  //     const response = await makeRequest.get(`/users/find/${currentUser.id === dialogs.user1_id ? dialogs.user2_id : dialogs.user1_id}`);
-  //     setRecepientInfo(response.data);
-  //   } catch (error) {
-  //     console.error("Произошла ошибка при выполнении запроса:", error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   if (dialogs.user1_id && dialogs.user2_id) {
-  //     getUserInfo();
-  //   }
-  // }, [dialogs.user1_id, dialogs.user2_id]);
-  console.log(dialogs);
   return (
     <div className="dialogs">
       {dialogs.map((dialog) => {
