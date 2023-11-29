@@ -14,8 +14,7 @@ export const WebcamVideo = () => {
 
   const mutation = useMutation(
     async (videoFile) => {
-      console.log(videoFile);
-      return makeRequest.post("/stories", { file: videoFile });
+      return makeRequest.post("/stories", { mediaSrc: videoFile });
     },
     {
       onSuccess: () => {
@@ -23,23 +22,26 @@ export const WebcamVideo = () => {
       },
     }
   );
-  const upload = async (e) => {
+  const upload = async () => {
     try {
-      const blob = new Blob(recordedChunks, { type: "video/webm" });
-      // const formData = new FormData();
-      // formData.append("file", blob, "recorded-video.webm");
-      const res = await makeRequest.post("/upload", blob);
-      console.log(res);
+      const formData = new FormData();
+      recordedChunks.forEach((chunk, index) => {
+        formData.append("video", chunk, `video_${index}.webm`);
+      });
+
+      const res = await makeRequest.post("/upload-video", formData);
       return res.data;
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (e) => {
     try {
-      let videoUrl = await upload();
-      mutation.mutate(video);
+      e.preventDefault();
+      let mediaSrc = await upload();
+      console.log(mediaSrc);
+      mutation.mutate(mediaSrc);
 
       setVideo(null);
       setRecordedChunks([]);

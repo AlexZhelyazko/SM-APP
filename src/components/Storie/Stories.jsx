@@ -13,12 +13,12 @@ const Stories = ({ setWebCamVisible }) => {
     })
   );
 
-  useEffect(() => {
-    return () => {
-      // Очищаем URL объектов, чтобы предотвратить утечки памяти
-      stories?.forEach((story) => URL.revokeObjectURL(story.mediaBlob.data));
-    };
-  }, [stories]);
+  // useEffect(() => {
+  //   return () => {
+  //     // Очищаем URL объектов, чтобы предотвратить утечки памяти
+  //     stories?.forEach((story) => URL.revokeObjectURL(story.mediaBlob.data));
+  //   };
+  // }, [stories]);
 
   console.log(stories);
 
@@ -30,18 +30,10 @@ const Stories = ({ setWebCamVisible }) => {
         <button onClick={() => setWebCamVisible(true)}>+</button>
       </div>
       {stories?.map((story) => {
-        // Преобразование Buffer в Uint8Array
-        const uint8Array = new Uint8Array(story.mediaBlob.data);
-        console.log(uint8Array);
-
-        // Создание Blob из Uint8Array
-        const blob = new Blob([uint8Array], { type: "video/webm" });
-        console.log(blob);
-
         return (
           <div className="story" key={story.id}>
             <video
-              src={URL.createObjectURL(blob)}
+              src={"/upload/" + story.mediaSrc}
               type="video/webm"
               controls={true}
             ></video>
