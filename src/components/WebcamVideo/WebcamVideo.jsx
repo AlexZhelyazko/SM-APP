@@ -1,9 +1,10 @@
+import "./webcam.scss";
 import React, { useState, useRef, useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import Webcam from "react-webcam";
 import { makeRequest } from "../../axios";
 
-export const WebcamVideo = () => {
+export const WebcamVideo = ({ setWebCamVisible }) => {
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -93,53 +94,68 @@ export const WebcamVideo = () => {
     }
   };
 
-  const handleDownload = () => {
-    const blob = new Blob(recordedChunks, { type: "video/webm" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "recorded-video.webm";
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
+  const handleCancel = () => {
+    setVideo(null);
     setRecordedChunks([]);
+  };
+
+  const handleCloseVideo = () => {
+    setVideo(null);
+    setRecordedChunks([]);
+    setWebCamVisible(false);
   };
 
   useEffect(() => {
     return () => {
-      stopRecording(); // Отключаем камеру при размонтировании компонента
+      stopRecording();
     };
   }, []);
 
   return (
-    <div>
-      <div>
-        <video ref={webcamRef} autoPlay style={{ width: 640, height: 480 }} />
-      </div>
-      <div>
-        {isRecording ? (
-          <button onClick={handleStopRecording}>Stop Recording</button>
+    <div onClick={handleCloseVideo} className="webcam_modal">
+      <div onClick={(e) => e.stopPropagation()} className="webcam_video">
+        {recordedChunks.length > 0 ? (
+          <div style={{ height: "100%" }}>
+            <video controls autoPlay>
+              {recordedChunks.map((chunk, index) => (
+                <source
+                  key={index}
+                  src={URL.createObjectURL(chunk)}
+                  type="video/webm"
+                />
+              ))}
+            </video>
+          </div>
         ) : (
-          <button onClick={handleStartRecording}>Start Recording</button>
+          <video ref={webcamRef} autoPlay />
         )}
       </div>
-      {recordedChunks.length > 0 && (
-        <div>
-          <h2>Recorded Video:</h2>
-          <video controls autoPlay style={{ width: 640, height: 480 }}>
-            {recordedChunks.map((chunk, index) => (
-              <source
-                key={index}
-                src={URL.createObjectURL(chunk)}
-                type="video/webm"
-              />
-            ))}
-          </video>
-          <button onClick={handleDownload}>Download</button>
-          <button onClick={handleUpload}>Upload</button>{" "}
-          {/* Добавляем кнопку загрузки видео */}
-        </div>
-      )}
+      <div onClick={(e) => e.stopPropagation()} className="webcam_controls">
+        {recordedChunks.length > 0 ? (
+          <>
+            <button className="webcam_controls_cancel" onClick={handleCancel}>
+              Cancel
+            </button>
+            <button className="webcam_controls_upload" onClick={handleUpload}>
+              Upload
+            </button>
+          </>
+        ) : isRecording ? (
+          <button
+            className="webcam_controls_stop"
+            onClick={handleStopRecording}
+          >
+            <div></div>
+          </button>
+        ) : (
+          <button
+            className="webcam_controls_start"
+            onClick={handleStartRecording}
+          >
+            <div></div>
+          </button>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,0 +1,82 @@
+.webcam_modal {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 31;
+  .webcam_video {
+    background-color: black;
+    width: 25%;
+    height: 450px;
+    video {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .webcam_controls {
+    width: 20%;
+    margin-top: 10px;
+    display: flex;
+    .webcam_controls_start {
+      width: 50px;
+      outline: none;
+      height: 50px;
+      border-radius: 100%;
+      margin: 0 auto;
+      cursor: pointer;
+      div {
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        background-color: red;
+        margin: 0 auto;
+      }
+    }
+    .webcam_controls_stop {
+      width: 50px;
+      outline: none;
+      height: 50px;
+      border-radius: 100%;
+      margin: 0 auto;
+      cursor: pointer;
+      div {
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        margin: 0 auto;
+      }
+    }
+    .webcam_controls_upload {
+      cursor: pointer;
+      margin-left: auto;
+      outline: none;
+      width: 29%;
+      border: none;
+      height: 27px;
+      background-color: #138813;
+      color: white;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      font-size: 16px;
+    }
+    .webcam_controls_cancel {
+      cursor: pointer;
+      outline: none;
+      width: 29%;
+      border: none;
+      height: 27px;
+      background-color: red;
+      color: white;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      font-size: 16px;
+    }
+  }
+}
