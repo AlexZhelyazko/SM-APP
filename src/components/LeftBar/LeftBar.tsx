@@ -1,7 +1,6 @@
 import "./leftbar.scss";
 import { useContext } from "react";
 import Friends from "../../assets/1.png";
-import Groups from "../../assets/2.png";
 import Events from "../../assets/6.png";
 import Gaming from "../../assets/7.png";
 import Messages from "../../assets/10.png";

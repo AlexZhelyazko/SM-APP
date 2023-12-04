@@ -1,66 +1,75 @@
+@import "../../style.scss";
 .stories {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
+  @include themify($themes) {
+    display: flex;
+    gap: 10px;
+    height: 31%;
 
-  .story {
-    flex: 1;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-
-    video {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* ... остальные стили для .story */
-
-    button {
-      /* ... стили для кнопок */
-    }
-  }
-
-  .slider-container {
-    position: relative;
-    width: 100%;
-    margin-top: 20px;
-    overflow: hidden;
-
-    .slider {
+    .controlImg {
+      height: 30%;
+      align-self: center;
       display: flex;
-      scroll-behavior: smooth;
-      transition: transform 0.5s ease;
-
-      .slide {
-        border-radius: 15%;
-        flex: 0 0 auto;
-        width: calc(100% / 4 - 10px);
-        margin-right: 10px;
-        outline: none;
-
-        video {
-          border-radius: 15%;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        span {
-          display: block;
-          text-align: center;
-          margin-top: 5px;
-        }
-      }
-
-      .active {
-        border: 2px solid blue;
+      align-items: center;
+      cursor: pointer;
+      img {
+        width: 20px;
+        height: 20px;
       }
     }
-  }
 
-  .prev,
-  .next {
-    /* ... стили для кнопок Prev и Next */
+    .story {
+      flex: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+
+      video {
+        width: 100%;
+        height: 100%;
+      }
+
+      button {
+      }
+    }
+
+    .slider-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+
+      .slider {
+        display: flex;
+        scroll-behavior: smooth;
+        transition: transform 0.5s ease;
+
+        .slide {
+          border-radius: 15%;
+          flex: 0 0 auto;
+          width: calc(100% / 4 - 10px);
+          margin-right: 10px;
+          outline: none;
+          .name {
+            color: themed("textColor");
+          }
+
+          video {
+            border-radius: 15%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          span {
+            display: block;
+            text-align: center;
+            margin-top: 5px;
+          }
+        }
+
+        .active {
+          border: 2px solid blue;
+        }
+      }
+    }
   }
 }

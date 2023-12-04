@@ -3,6 +3,7 @@ import "./stories.scss";
 import { AuthContext } from "../../context/authContext.js";
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
+import Next from "../../assets/next.png";
 
 const Stories = ({ setWebCamVisible }) => {
   const { currentUser } = useContext(AuthContext);
@@ -32,30 +33,37 @@ const Stories = ({ setWebCamVisible }) => {
 
   return (
     <div className="stories">
+      <div className="controlImg">
+        <img
+          src={Next}
+          style={{ transform: "rotateY(180deg)" }}
+          alt=""
+          srcset=""
+          onClick={prevSlide}
+        />
+      </div>
       <div className="slider-container">
         <div className="slider">
-          <div className="slide">
-            <img src={currentUser.profilePic} alt="" />
-            <span>{currentUser.name}</span>
-            <button onClick={() => setWebCamVisible(true)}>+</button>
+          <div className="slide" style={{ backgroundColor: "black" }}>
+            <div
+              onClick={() => setWebCamVisible(true)}
+              style={{ widows: "100%", height: "100%" }}
+            ></div>
+            <span className="name">{currentUser.name}</span>
           </div>
           {visibleStories.map((story) => (
             <div className="slide" key={story.id}>
               <video
                 src={"/upload/" + story.mediaSrc}
                 type="video/webm"
-                controls={true}
               ></video>
-              <span>{story.name}</span>
+              <span className="name">{story.name}</span>
             </div>
           ))}
         </div>
-        <button className="prev" onClick={prevSlide}>
-          Prev
-        </button>
-        <button className="next" onClick={nextSlide}>
-          Next
-        </button>
+      </div>
+      <div className="controlImg">
+        <img src={Next} alt="" onClick={nextSlide} />
       </div>
     </div>
   );
