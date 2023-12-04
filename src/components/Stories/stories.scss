@@ -1,0 +1,66 @@
+.stories {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+
+  .story {
+    flex: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+
+    video {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ... остальные стили для .story */
+
+    button {
+      /* ... стили для кнопок */
+    }
+  }
+
+  .slider-container {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    overflow: hidden;
+
+    .slider {
+      display: flex;
+      scroll-behavior: smooth;
+      transition: transform 0.5s ease;
+
+      .slide {
+        border-radius: 15%;
+        flex: 0 0 auto;
+        width: calc(100% / 4 - 10px);
+        margin-right: 10px;
+        outline: none;
+
+        video {
+          border-radius: 15%;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        span {
+          display: block;
+          text-align: center;
+          margin-top: 5px;
+        }
+      }
+
+      .active {
+        border: 2px solid blue;
+      }
+    }
+  }
+
+  .prev,
+  .next {
+    /* ... стили для кнопок Prev и Next */
+  }
+}
