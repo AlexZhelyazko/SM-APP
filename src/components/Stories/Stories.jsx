@@ -4,9 +4,11 @@ import { AuthContext } from "../../context/authContext.js";
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 import Next from "../../assets/next.png";
+import { useNavigate } from "react-router-dom";
 
 const Stories = ({ setWebCamVisible }) => {
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [stories, setStories] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const itemsToShow = 3; // Количество элементов, которые нужно отобразить
@@ -54,6 +56,7 @@ const Stories = ({ setWebCamVisible }) => {
           {visibleStories.map((story) => (
             <div className="slide" key={story.id}>
               <video
+                onClick={() => navigate(`/stories/${story.id}`)}
                 src={"/upload/" + story.mediaSrc}
                 type="video/webm"
               ></video>

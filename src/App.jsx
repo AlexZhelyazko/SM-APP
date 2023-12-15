@@ -12,6 +12,7 @@ import "./style.scss";
 import useOnlineUsersStatus from "./hooks/useOnlineStatus";
 import Messages from "./pages/Dialogs/Dialogs";
 import Chat from "./components/Chat/Chat";
+import ExpandedStories from "./components/ExpandedStories/ExpandedStories";
 
 export const App = () => {
   const { currentUser } = useContext(AuthContext);
@@ -67,6 +68,7 @@ export const App = () => {
           path="/followings"
           element={<Friends onlineUsers={onlineUsers} />}
         />
+        <Route path="/stories/:id" element={<ExpandedStories />} />
       </Route>
     </Routes>
   );
