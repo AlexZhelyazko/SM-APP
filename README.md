@@ -32,7 +32,7 @@
 
 ## Technologies
 
-- React.js, TypeScript, JavaScript, HTML, CSS, React-Query, JSON-Server, SASS, WebSocket, Node, Express, MySQL, multer, bcryptjs, axios, react-webcam.
+- React.js, TypeScript, JavaScript, HTML, CSS, React-Query, SASS, WebSocket, Node, Express, MySQL, multer, bcryptjs, axios, react-webcam.
 
 ## Project Setup
 
