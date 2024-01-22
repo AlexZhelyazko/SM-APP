@@ -6,6 +6,7 @@ import "./index.scss";
 import { DarkModeContextProvider } from "./context/darkModeContext";
 import { AuthContextProvider } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { StoriesContextProvider } from "./context/storiesContext";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -15,11 +16,13 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <DarkModeContextProvider>
-          <AuthContextProvider>
-            <App />
-          </AuthContextProvider>
-        </DarkModeContextProvider>
+        <StoriesContextProvider>
+          <DarkModeContextProvider>
+            <AuthContextProvider>
+              <App />
+            </AuthContextProvider>
+          </DarkModeContextProvider>
+        </StoriesContextProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>

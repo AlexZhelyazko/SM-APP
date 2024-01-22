@@ -35,16 +35,26 @@
       overflow: hidden;
 
       .slider {
+        height: 75%;
         display: flex;
         scroll-behavior: smooth;
         transition: transform 0.5s ease;
 
         .slide {
+          background-color: #1b1919;
           border-radius: 15%;
           flex: 0 0 auto;
           width: calc(100% / 4 - 10px);
           margin-right: 10px;
           outline: none;
+          .slide_addStory {
+            height: 100%;
+            color: white;
+            font-size: 42px;
+            text-align: center;
+            position: relative;
+            top: 25%;
+          }
           .name {
             color: themed("textColor");
           }

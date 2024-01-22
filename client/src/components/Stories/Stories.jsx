@@ -5,11 +5,12 @@ import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 import Next from "../../assets/next.png";
 import { useNavigate } from "react-router-dom";
+import { StoriesContext } from "../../context/storiesContext";
 
 const Stories = ({ setWebCamVisible }) => {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [stories, setStories] = useState([]);
+  const { stories, setStories } = useContext(StoriesContext);
   const [startIndex, setStartIndex] = useState(0);
   const itemsToShow = 3; // Количество элементов, которые нужно отобразить
 
@@ -18,7 +19,7 @@ const Stories = ({ setWebCamVisible }) => {
       setStories(res.data);
     })
   );
-
+  console.log(stories);
   const nextSlide = () => {
     if (startIndex + itemsToShow < stories.length) {
       setStartIndex((prev) => prev + 1);
@@ -46,17 +47,19 @@ const Stories = ({ setWebCamVisible }) => {
       </div>
       <div className="slider-container">
         <div className="slider">
-          <div className="slide" style={{ backgroundColor: "black" }}>
+          <div className="slide">
             <div
               onClick={() => setWebCamVisible(true)}
-              style={{ widows: "100%", height: "100%" }}
-            ></div>
+              className="slide_addStory"
+            >
+              +
+            </div>
             <span className="name">{currentUser.name}</span>
           </div>
           {visibleStories.map((story) => (
-            <div className="slide" key={story.id}>
+            <div className="slide" key={story.storyId}>
               <video
-                onClick={() => navigate(`/stories/${story.id}`)}
+                onClick={() => navigate(`/stories/${story.storyId}`)}
                 src={"/upload/" + story.mediaSrc}
                 type="video/webm"
               ></video>

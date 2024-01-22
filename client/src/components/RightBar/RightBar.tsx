@@ -27,7 +27,7 @@ const RightBar = () => {
                 src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt=""
               />
-              <span>Jane Doe</span>
+              <span>User 2</span>
             </div>
             <div className="buttons">
               <button>follow</button>
@@ -40,7 +40,7 @@ const RightBar = () => {
                 src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt=""
               />
-              <span>Jane Doe</span>
+              <span>User 2</span>
             </div>
             <div className="buttons">
               <button>follow</button>
@@ -57,10 +57,10 @@ const RightBar = () => {
                 alt=""
               />
               <p>
-                <span>Jane Doe</span> changed their cover picture
+                <span>User 2</span> changed their cover picture
               </p>
             </div>
-            <span>1 min ago</span>
+            <span>10 min ago</span>
           </div>
         </div>
         <OnlineFriends />
